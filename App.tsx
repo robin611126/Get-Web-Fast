@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   CheckCircle2, Menu, X, ArrowRight, ExternalLink, 
-  MessageCircle, Phone, Mail, MapPin, ChevronRight,
-  Star, Rocket, Sparkles, ArrowUpRight, Crown, Quote,
-  Search, PenTool, Code, Layout, Send, 
-  Linkedin, Instagram, Twitter, Facebook,
-  Users, Heart, Zap, Shield, User
+  MessageCircle, Phone, Mail, MapPin,
+  Star, Rocket, ArrowUpRight, Crown, Quote,
+  Search, PenTool, Code, Send, 
+  Linkedin, Instagram, Twitter,
+  Heart, Zap, Shield
 } from 'lucide-react';
-import { COMPANY_INFO, FEATURES, SERVICES, PROJECTS, TESTIMONIALS, PROCESS_STEPS } from './constants';
+import { COMPANY_INFO, FEATURES, SERVICES, PROJECTS, TESTIMONIALS } from './constants';
 import { GridBackground, ParticleDrift } from './components/ui/Backgrounds';
 import { SpotlightCard } from './components/ui/Spotlight';
 

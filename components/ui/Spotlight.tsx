@@ -14,7 +14,6 @@ export const SpotlightCard: React.FC<SpotlightCardProps> = ({
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [opacity, setOpacity] = useState(0);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!divRef.current) return;
@@ -23,30 +22,10 @@ export const SpotlightCard: React.FC<SpotlightCardProps> = ({
     setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
-  const handleFocus = () => {
-    setOpacity(1);
-  };
-
-  const handleBlur = () => {
-    setOpacity(0);
-  };
-
-  const handleMouseEnter = () => {
-    setOpacity(1);
-  };
-
-  const handleMouseLeave = () => {
-    setOpacity(0);
-  };
-
   return (
     <motion.div
       ref={divRef}
       onMouseMove={handleMouseMove}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className={`relative rounded-xl border border-white/10 bg-black overflow-hidden group hover:shadow-[0_20px_40px_-15px_rgba(91,64,255,0.15)] ${className}`}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3, ease: "easeOut" }}

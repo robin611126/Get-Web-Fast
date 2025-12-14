@@ -1,5 +1,3 @@
-import React from "react";
-
 export const GridBackground = () => {
   return (
     <div className="fixed inset-0 z-[-1] pointer-events-none flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]">

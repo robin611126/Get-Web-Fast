@@ -1,7 +1,7 @@
 import { 
-  Monitor, Rocket, Smartphone, Search, DollarSign, 
-  Clock, ShieldCheck, Zap, Layout, ShoppingBag, 
-  Briefcase, Code, BarChart, Layers, Users,
+  Rocket, Search, DollarSign, 
+  ShieldCheck, Zap, Layout, ShoppingBag, 
+  Briefcase, Code, Users,
   FileText
 } from 'lucide-react';
 
