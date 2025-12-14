@@ -63,7 +63,7 @@ const Navbar = () => {
           <img 
             src="https://i.ibb.co/yKx6Mtq/gwf-logo.png" 
             alt="Get Web Fast" 
-            className="h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_15px_rgba(91,64,255,0.3)]" 
+            className="h-12 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_15px_rgba(91,64,255,0.3)]" 
             onError={(e) => {
               // Fallback if the direct link guess fails, revert to the provided page link or hide
               (e.target as HTMLImageElement).style.display = 'none';
@@ -96,8 +96,8 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          {mobileMenuOpen ? <X /> : <Menu />}
+        <button className="md:hidden text-white p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
@@ -108,7 +108,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#030014] border-b border-white/10"
+            className="md:hidden bg-[#030014] border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map((link) => (
@@ -119,7 +119,7 @@ const Navbar = () => {
                     setMobileMenuOpen(false);
                     handleSmoothScroll(e, link.href);
                   }}
-                  className="text-lg text-slate-300 cursor-pointer"
+                  className="text-lg text-slate-300 cursor-pointer py-2"
                 >
                   {link.name}
                 </a>
@@ -130,7 +130,7 @@ const Navbar = () => {
                   setMobileMenuOpen(false);
                   handleSmoothScroll(e, '#contact-us');
                 }}
-                className="mt-4 flex items-center justify-center w-full py-3 bg-secondary/10 text-secondary border border-secondary/20 rounded-lg cursor-pointer"
+                className="mt-4 flex items-center justify-center w-full py-4 bg-secondary/10 text-secondary border border-secondary/20 rounded-lg cursor-pointer font-semibold"
               >
                 Contact Us
               </a>
@@ -144,13 +144,13 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-[120vh] flex flex-col items-center pt-32 lg:pt-48 overflow-visible">
+    <section id="home" className="relative min-h-[120vh] flex flex-col items-center pt-24 md:pt-32 lg:pt-48 overflow-visible">
       
       {/* --- Cosmic Horizon Background --- */}
-      {/* Top light bloom */}
-      <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[120%] h-[600px] bg-primary/20 blur-[120px] rounded-[100%] pointer-events-none z-0 mix-blend-screen"></div>
+      {/* Top light bloom - Constrained width to prevent horizontal scroll */}
+      <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] bg-primary/20 blur-[120px] rounded-[100%] pointer-events-none z-0 mix-blend-screen"></div>
       {/* Secondary glow */}
-      <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[80%] h-[400px] bg-secondary/10 blur-[100px] rounded-[100%] pointer-events-none z-0"></div>
+      <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[90%] md:w-[80%] h-[400px] bg-secondary/10 blur-[100px] rounded-[100%] pointer-events-none z-0"></div>
       
       <div className="max-w-5xl mx-auto px-6 w-full flex flex-col items-center relative z-10 text-center">
         
@@ -174,7 +174,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1] md:leading-[1.1]"
+          className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1] md:leading-[1.1]"
         >
           Websites Delivered Fast. <br className="hidden md:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-white to-primary drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
@@ -197,16 +197,16 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex flex-col items-center mb-20"
+          className="flex flex-col items-center mb-20 w-full"
         >
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full sm:w-auto">
             <motion.a 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               href={getWhatsAppUrl("Hi, I want to start a project.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-primary to-indigo-600 text-white font-semibold text-center flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(91,64,255,0.4)] hover:shadow-[0_0_60px_rgba(91,64,255,0.6)] transition-shadow border border-white/10"
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-primary to-indigo-600 text-white font-semibold text-center flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(91,64,255,0.4)] hover:shadow-[0_0_60px_rgba(91,64,255,0.6)] transition-shadow border border-white/10 w-full sm:w-auto"
             >
               WhatsApp Now <MessageCircle size={18} />
             </motion.a>
@@ -216,7 +216,7 @@ const Hero = () => {
               href={getWhatsAppUrl("Hi, I'd like to book a consultation call.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 rounded-full border border-white/10 bg-white/5 text-white font-medium text-center hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-sm"
+              className="px-8 py-4 rounded-full border border-white/10 bg-white/5 text-white font-medium text-center hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-sm w-full sm:w-auto"
             >
               Book a Call
             </motion.a>
@@ -258,7 +258,7 @@ const Hero = () => {
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px]"></div>
                 
                 {/* Layout Content */}
-                <div className="p-8 md:p-12 grid grid-cols-12 gap-6 h-full">
+                <div className="p-4 md:p-12 grid grid-cols-12 gap-4 md:gap-6 h-full">
                     {/* Left Sidebar */}
                     <div className="hidden md:block col-span-2 h-full rounded-lg border border-white/5 bg-white/5 p-4 flex flex-col gap-3">
                         <div className="w-8 h-8 rounded bg-primary/20 mb-4"></div>
@@ -268,19 +268,19 @@ const Hero = () => {
                     </div>
                     
                     {/* Main Content Area */}
-                    <div className="col-span-12 md:col-span-7 flex flex-col gap-6">
+                    <div className="col-span-12 md:col-span-7 flex flex-col gap-4 md:gap-6">
                         {/* Hero Banner inside Mockup */}
-                        <div className="h-48 rounded-lg bg-gradient-to-r from-surface to-black border border-white/5 relative overflow-hidden p-6 flex flex-col justify-center">
+                        <div className="h-32 md:h-48 rounded-lg bg-gradient-to-r from-surface to-black border border-white/5 relative overflow-hidden p-6 flex flex-col justify-center">
                             <div className="w-32 h-6 bg-secondary/20 rounded mb-4"></div>
                             <div className="w-3/4 h-8 bg-gradient-to-r from-white to-white/40 rounded mb-2"></div>
                             <div className="w-1/2 h-8 bg-gradient-to-r from-white to-white/40 rounded"></div>
                         </div>
                         {/* Stats Row */}
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid grid-cols-3 gap-2 md:gap-4">
                             {[1,2,3].map(i => (
-                                <div key={i} className="h-24 rounded-lg bg-white/5 border border-white/5 p-4">
-                                    <div className="w-8 h-8 rounded-full bg-white/10 mb-2"></div>
-                                    <div className="w-16 h-3 bg-white/20 rounded"></div>
+                                <div key={i} className="h-16 md:h-24 rounded-lg bg-white/5 border border-white/5 p-2 md:p-4">
+                                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/10 mb-2"></div>
+                                    <div className="w-12 md:w-16 h-2 md:h-3 bg-white/20 rounded"></div>
                                 </div>
                             ))}
                         </div>
@@ -299,13 +299,13 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Floating Popups - Positioned Absolute Relative to the Mockup Container */}
+          {/* Floating Popups - Hidden on mobile to prevent overflow/clutter */}
           
           {/* Left Popup - Performance */}
           <motion.div 
              animate={{ y: [0, -15, 0] }}
              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-             className="absolute -left-4 md:-left-12 top-1/4 z-30"
+             className="hidden md:block absolute -left-12 top-1/4 z-30"
           >
              <div className="p-4 rounded-xl border border-white/10 bg-black/60 backdrop-blur-xl shadow-2xl flex items-center gap-4 hover:border-green-500/50 transition-colors">
                <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
@@ -322,7 +322,7 @@ const Hero = () => {
           <motion.div 
              animate={{ y: [0, 15, 0] }}
              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-             className="absolute -right-4 md:-right-12 bottom-1/3 z-30"
+             className="hidden md:block absolute -right-12 bottom-1/3 z-30"
           >
              <div className="p-4 rounded-xl border border-white/10 bg-black/60 backdrop-blur-xl shadow-2xl flex items-center gap-4 hover:border-secondary/50 transition-colors">
                <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
@@ -1325,7 +1325,7 @@ const Footer = () => {
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-[#030014] text-white selection:bg-secondary/30 selection:text-white">
+    <div className="min-h-screen bg-[#030014] text-white selection:bg-secondary/30 selection:text-white overflow-x-hidden">
       <GridBackground />
       <ParticleDrift />
       
