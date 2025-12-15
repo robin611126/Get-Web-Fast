@@ -449,20 +449,20 @@ const AboutUs = () => {
                 <div className="flex flex-wrap gap-4">
                    <div className="flex items-center gap-3 pr-6 border-r border-white/10">
                       <div className="w-10 h-10 rounded-full bg-slate-700 overflow-hidden">
-                         <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=100&auto=format&fit=crop" alt="Ryan" className="w-full h-full object-cover" />
+                         <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=100&auto=format&fit=crop" alt="Shivam" className="w-full h-full object-cover" />
                       </div>
                       <div>
-                         <div className="text-sm font-bold text-white">Ryan Matthews</div>
-                         <div className="text-xs text-slate-500">Co Founder</div>
+                         <div className="text-sm font-bold text-white">Shivam Welfort</div>
+                         <div className="text-xs text-slate-500">Founder</div>
                       </div>
                    </div>
                    <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-slate-700 overflow-hidden">
-                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" alt="David" className="w-full h-full object-cover" />
+                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" alt="Faishal" className="w-full h-full object-cover" />
                       </div>
                       <div>
-                         <div className="text-sm font-bold text-white">David Parker</div>
-                         <div className="text-xs text-slate-500">Co Founder</div>
+                         <div className="text-sm font-bold text-white">Faishal Ahmad</div>
+                         <div className="text-xs text-slate-500">Founder</div>
                       </div>
                    </div>
                 </div>
