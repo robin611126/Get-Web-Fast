@@ -1,9 +1,10 @@
-import { LucideIcon } from 'lucide-react';
+import React from 'react';
 
+// Changed from LucideIcon to React.ElementType to support both Lucide and Custom Icons
 export interface Feature {
   title: string;
   description: string;
-  icon: LucideIcon;
+  icon: React.ElementType; 
 }
 
 export interface Service {
@@ -14,6 +15,6 @@ export interface Service {
   features: string[];
   time: string;
   bestFor: string;
-  icon: LucideIcon;
+  icon: React.ElementType;
   isPremium?: boolean;
 }

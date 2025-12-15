@@ -1,9 +1,16 @@
 import { 
-  Rocket, Search, DollarSign, 
-  ShieldCheck, Zap, Layout, ShoppingBag, 
+  Rocket, Search, 
+  ShoppingBag, 
   Briefcase, Code, Users,
-  FileText
 } from 'lucide-react';
+import { 
+  FirstYearIcon, 
+  PremiumQualityIcon, 
+  FastDeliveryIcon, 
+  PixelPerfectIcon, 
+  SeoIcon, 
+  PricingIcon 
+} from './components/ui/Icons';
 
 export const COMPANY_INFO = {
   name: "Get Web Fast",
@@ -17,32 +24,32 @@ export const FEATURES = [
   {
     title: "Complete First-Year Package",
     description: "Launch without worry. Free premium hosting and a custom domain name included for your first year.",
-    icon: ShieldCheck,
+    icon: FirstYearIcon,
   },
   {
     title: "Premium Quality, Honest Prices",
     description: "Enterprise-level quality at prices that make sense for small businesses. No compromises.",
-    icon: DollarSign,
+    icon: PremiumQualityIcon,
   },
   {
     title: "Lightning-Fast 48-72h Delivery",
     description: "Fully functional, professionally designed websites live in record time without cutting corners.",
-    icon: Zap,
+    icon: FastDeliveryIcon,
   },
   {
     title: "Pixel-Perfect Design",
     description: "We obsess over details. Clean layouts and stunning visuals that convert visitors into customers.",
-    icon: Layout,
+    icon: PixelPerfectIcon,
   },
   {
     title: "SEO-Ready Architecture",
     description: "Built with proper structure and speed to give you a head start in search rankings immediately.",
-    icon: Search,
+    icon: SeoIcon,
   },
   {
     title: "Transparent Pricing",
     description: "No hidden fees. Clear, straightforward costs. What you see is exactly what you pay.",
-    icon: FileText,
+    icon: PricingIcon,
   },
 ];
 
