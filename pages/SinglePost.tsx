@@ -1,12 +1,30 @@
 import { useParams, Link } from 'react-router-dom';
-import { cms } from '../lib/cms';
+import { cms, BlogPost } from '../lib/cms';
 import { Navbar } from '../components/LandingPage';
 import { format } from 'date-fns';
 import { Clock, ArrowLeft, Facebook, Twitter, Linkedin } from 'lucide-react';
 
+import { useState, useEffect } from 'react';
+
 const SinglePost = () => {
   const { slug } = useParams();
-  const post = cms.getPostBySlug(slug || '');
+  const [post, setPost] = useState<BlogPost | null | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (slug) {
+      cms.getPostBySlug(slug).then(p => {
+        setPost(p || null);
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
+    }
+  }, [slug]);
+
+  if (loading) {
+    return <div className="min-h-screen bg-[#030014] text-white flex items-center justify-center">Loading article...</div>;
+  }
 
   if (!post) {
     return (
@@ -23,7 +41,7 @@ const SinglePost = () => {
   return (
     <div className="min-h-screen bg-[#030014] text-white">
       <Navbar />
-      
+
       <article className="pt-32 pb-24 px-6 max-w-4xl mx-auto">
         <Link to="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors">
           <ArrowLeft size={16} /> Back to Articles
@@ -57,7 +75,7 @@ const SinglePost = () => {
         </div>
 
         {/* Content */}
-        <div 
+        <div
           className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-slate-300 prose-a:text-blue-400 prose-strong:text-white"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
@@ -71,7 +89,7 @@ const SinglePost = () => {
               </span>
             ))}
           </div>
-          
+
           <div className="flex items-center gap-4">
             <span className="text-sm text-slate-500 font-medium">Share:</span>
             <div className="flex gap-2">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { cms, BlogPost } from '../lib/cms';
 import { Search, Clock, ArrowRight } from 'lucide-react';
@@ -8,21 +8,33 @@ import { format } from 'date-fns';
 const PublicBlog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  
-  const allPosts = cms.getPublishedPosts();
+  const [allPosts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    cms.getPublishedPosts().then(posts => {
+      setPosts(posts);
+      setLoading(false);
+    });
+  }, []);
+
   const categories = ['All', ...Array.from(new Set(allPosts.map(p => p.category)))];
 
   const filteredPosts = allPosts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
+  if (loading) {
+    return <div className="min-h-screen bg-[#030014] text-white flex items-center justify-center">Loading articles...</div>;
+  }
+
   return (
     <div className="min-h-screen bg-[#030014] text-white">
       <Navbar />
-      
+
       <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -42,11 +54,10 @@ const PublicBlog = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  selectedCategory === cat 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-white/5 text-slate-400 hover:bg-white/10'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === cat
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white/5 text-slate-400 hover:bg-white/10'
+                  }`}
               >
                 {cat}
               </button>
@@ -71,10 +82,10 @@ const PublicBlog = () => {
           {filteredPosts.map(post => (
             <Link to={`/blog/${post.slug}`} key={post.id} className="group flex flex-col h-full bg-[#0A0A12] border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
               <div className="h-48 overflow-hidden relative">
-                <img 
-                  src={post.coverImage} 
-                  alt={post.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                <img
+                  src={post.coverImage}
+                  alt={post.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-xs font-bold px-3 py-1 rounded-full text-white">
                   {post.category}

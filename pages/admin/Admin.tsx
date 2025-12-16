@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, Link, useParams } from 'react-router-dom';
 import { cms, BlogPost } from '../../lib/cms';
-import { 
-  LayoutDashboard, Plus, LogOut, Edit, Trash2, 
+import {
+  LayoutDashboard, Plus, LogOut, Edit, Trash2,
   Save, Eye, ArrowLeft, Image as ImageIcon, Settings
 } from 'lucide-react';
 
@@ -11,25 +11,37 @@ const Login = ({ onLogin }: { onLogin: () => void }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (cms.login(email, password)) {
-      onLogin();
+    if (isLogin) {
+      const success = await cms.login(email, password);
+      if (success) {
+        onLogin();
+      } else {
+        setError('Invalid credentials');
+      }
     } else {
-      setError('Invalid credentials');
+      const success = await cms.signUp(email, password);
+      if (success) {
+        alert('Account created! Please sign in.');
+        setIsLogin(true);
+      } else {
+        setError('Signup failed. See console.');
+      }
     }
   };
 
   return (
     <div className="min-h-screen bg-[#030014] flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-[#0A0A12] border border-white/10 p-8 rounded-2xl">
-        <h2 className="text-2xl font-bold text-white mb-6 text-center">CMS Access</h2>
+        <h2 className="text-2xl font-bold text-white mb-6 text-center">{isLogin ? 'CMS Access' : 'Create Admin'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm text-slate-400 mb-1">Email</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none"
@@ -38,8 +50,8 @@ const Login = ({ onLogin }: { onLogin: () => void }) => {
           </div>
           <div>
             <label className="block text-sm text-slate-400 mb-1">Password</label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:outline-none"
@@ -48,9 +60,17 @@ const Login = ({ onLogin }: { onLogin: () => void }) => {
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition-colors">
-            Login
+            {isLogin ? 'Login' : 'Create Account'}
           </button>
         </form>
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => { setIsLogin(!isLogin); setError(''); }}
+            className="text-sm text-slate-400 hover:text-white underline"
+          >
+            {isLogin ? 'Need an account? Sign Up' : 'Already have an account? Login'}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -62,13 +82,18 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setPosts(cms.getAllPosts());
+    loadPosts();
   }, []);
 
-  const handleDelete = (id: string) => {
+  const loadPosts = async () => {
+    const data = await cms.getAllPosts();
+    setPosts(data);
+  }
+
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this post?')) {
-      cms.deletePost(id);
-      setPosts(cms.getAllPosts());
+      await cms.deletePost(id);
+      loadPosts();
     }
   };
 
@@ -76,7 +101,7 @@ const Dashboard = () => {
     <div className="p-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-        <button 
+        <button
           onClick={() => navigate('/admin/editor/new')}
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
         >
@@ -114,9 +139,9 @@ const Dashboard = () => {
           </div>
         ))}
         {posts.length === 0 && (
-            <div className="text-center py-12 text-slate-500 bg-white/5 rounded-xl border border-white/10">
-                No posts found. Create your first one!
-            </div>
+          <div className="text-center py-12 text-slate-500 bg-white/5 rounded-xl border border-white/10">
+            No posts found. Create your first one!
+          </div>
         )}
       </div>
     </div>
@@ -142,27 +167,29 @@ const Editor = ({ id }: { id?: string }) => {
   });
 
   useEffect(() => {
-    if (id && id !== 'new') {
-      const existing = cms.getPostById(id);
-      if (existing) {
-        setPost(existing);
-      } else {
-        // Fallback if ID is invalid, though routing should prevent this mostly
-        console.warn(`Post with ID ${id} not found.`);
+    const loadPost = async () => {
+      if (id && id !== 'new') {
+        const existing = await cms.getPostById(id);
+        if (existing) {
+          setPost(existing);
+        } else {
+          console.warn(`Post with ID ${id} not found.`);
+        }
       }
+      setLoading(false);
     }
-    setLoading(false);
+    loadPost();
   }, [id]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!post.title) return alert('Title is required');
-    
+
     try {
-        cms.savePost({ ...post, id: id === 'new' ? undefined : id });
-        navigate('/admin');
+      await cms.savePost({ ...post, id: id === 'new' ? undefined : id });
+      navigate('/admin');
     } catch (e) {
-        console.error("Failed to save post:", e);
-        alert("Failed to save post. Please try again.");
+      console.error("Failed to save post:", e);
+      alert("Failed to save post. Please try again.");
     }
   };
 
@@ -177,9 +204,9 @@ const Editor = ({ id }: { id?: string }) => {
           <span className="text-white font-bold">{id === 'new' ? 'Create Post' : 'Edit Post'}</span>
         </div>
         <div className="flex gap-3">
-          <select 
+          <select
             value={post.status}
-            onChange={(e) => setPost({...post, status: e.target.value as any})}
+            onChange={(e) => setPost({ ...post, status: e.target.value as any })}
             className="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-1.5 text-sm outline-none focus:border-blue-500"
           >
             <option value="draft">Draft</option>
@@ -195,19 +222,19 @@ const Editor = ({ id }: { id?: string }) => {
         {/* Main Editor Area */}
         <div className="flex-1 overflow-y-auto p-8 border-r border-white/10">
           <div className="max-w-3xl mx-auto space-y-6">
-            <input 
-              type="text" 
-              placeholder="Post Title" 
+            <input
+              type="text"
+              placeholder="Post Title"
               value={post.title}
-              onChange={(e) => setPost({...post, title: e.target.value, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')})}
+              onChange={(e) => setPost({ ...post, title: e.target.value, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') })}
               className="w-full bg-transparent text-4xl font-bold text-white placeholder-slate-600 outline-none"
             />
-            
+
             <div className="prose prose-invert max-w-none">
               <label className="block text-xs uppercase tracking-wide text-slate-500 font-bold mb-2">Content (HTML)</label>
-              <textarea 
+              <textarea
                 value={post.content}
-                onChange={(e) => setPost({...post, content: e.target.value})}
+                onChange={(e) => setPost({ ...post, content: e.target.value })}
                 placeholder="<p>Start writing your masterpiece...</p>"
                 className="w-full h-[60vh] bg-white/5 rounded-xl p-4 text-slate-300 font-mono text-sm outline-none border border-white/10 focus:border-blue-500/50 resize-none"
               />
@@ -217,16 +244,16 @@ const Editor = ({ id }: { id?: string }) => {
 
         {/* Sidebar Settings */}
         <div className="w-80 bg-[#0A0A12] overflow-y-auto p-6 space-y-6">
-          
+
           {/* Cover Image */}
           <div>
             <label className="flex items-center gap-2 text-sm text-slate-400 mb-2 font-semibold">
               <ImageIcon size={14} /> Cover Image URL
             </label>
-            <input 
+            <input
               type="text"
               value={post.coverImage}
-              onChange={(e) => setPost({...post, coverImage: e.target.value})}
+              onChange={(e) => setPost({ ...post, coverImage: e.target.value })}
               className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
             />
             {post.coverImage && <img src={post.coverImage} className="mt-2 rounded-lg h-24 w-full object-cover opacity-50" />}
@@ -236,18 +263,18 @@ const Editor = ({ id }: { id?: string }) => {
           <div className="space-y-4">
             <div>
               <label className="block text-sm text-slate-400 mb-1">Slug</label>
-              <input 
+              <input
                 type="text"
                 value={post.slug}
-                onChange={(e) => setPost({...post, slug: e.target.value})}
+                onChange={(e) => setPost({ ...post, slug: e.target.value })}
                 className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
               />
             </div>
             <div>
               <label className="block text-sm text-slate-400 mb-1">Excerpt</label>
-              <textarea 
+              <textarea
                 value={post.excerpt}
-                onChange={(e) => setPost({...post, excerpt: e.target.value})}
+                onChange={(e) => setPost({ ...post, excerpt: e.target.value })}
                 rows={3}
                 className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white resize-none focus:outline-none focus:border-blue-500"
               />
@@ -255,29 +282,29 @@ const Editor = ({ id }: { id?: string }) => {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="block text-sm text-slate-400 mb-1">Category</label>
-                <input 
+                <input
                   type="text"
                   value={post.category}
-                  onChange={(e) => setPost({...post, category: e.target.value})}
+                  onChange={(e) => setPost({ ...post, category: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div>
                 <label className="block text-sm text-slate-400 mb-1">Read Time</label>
-                <input 
+                <input
                   type="text"
                   value={post.readTime}
-                  onChange={(e) => setPost({...post, readTime: e.target.value})}
+                  onChange={(e) => setPost({ ...post, readTime: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
             </div>
-             <div>
+            <div>
               <label className="block text-sm text-slate-400 mb-1">Tags (comma separated)</label>
-              <input 
+              <input
                 type="text"
                 value={post.tags?.join(', ')}
-                onChange={(e) => setPost({...post, tags: e.target.value.split(',').map(t => t.trim())})}
+                onChange={(e) => setPost({ ...post, tags: e.target.value.split(',').map(t => t.trim()) })}
                 className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -285,23 +312,23 @@ const Editor = ({ id }: { id?: string }) => {
 
           {/* SEO */}
           <div className="pt-4 border-t border-white/10">
-            <h4 className="text-white font-bold mb-3 flex items-center gap-2"><Settings size={14}/> SEO Settings</h4>
+            <h4 className="text-white font-bold mb-3 flex items-center gap-2"><Settings size={14} /> SEO Settings</h4>
             <div className="space-y-3">
               <div>
                 <label className="block text-xs text-slate-500 mb-1">Meta Title</label>
-                <input 
+                <input
                   type="text"
                   value={post.seo?.metaTitle}
-                  onChange={(e) => setPost({...post, seo: {...post.seo, metaTitle: e.target.value} as any})}
+                  onChange={(e) => setPost({ ...post, seo: { ...post.seo, metaTitle: e.target.value } as any })}
                   className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div>
                 <label className="block text-xs text-slate-500 mb-1">Meta Description</label>
-                <textarea 
+                <textarea
                   rows={2}
                   value={post.seo?.metaDescription}
-                  onChange={(e) => setPost({...post, seo: {...post.seo, metaDescription: e.target.value} as any})}
+                  onChange={(e) => setPost({ ...post, seo: { ...post.seo, metaDescription: e.target.value } as any })}
                   className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white resize-none focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -316,13 +343,23 @@ const Editor = ({ id }: { id?: string }) => {
 
 // --- Main Admin Layout ---
 const Admin = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(cms.isAuthenticated());
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    cms.logout();
+  useEffect(() => {
+    cms.isAuthenticated().then(auth => {
+      setIsAuthenticated(auth);
+      setCheckingAuth(false);
+    });
+  }, []);
+
+  const handleLogout = async () => {
+    await cms.logout();
     setIsAuthenticated(false);
   };
+
+  if (checkingAuth) return <div className="h-screen bg-[#030014] flex items-center justify-center text-white">Checking auth...</div>;
 
   if (!isAuthenticated) {
     return <Login onLogin={() => setIsAuthenticated(true)} />;
