@@ -1349,102 +1349,138 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="py-24 relative bg-[#030014] overflow-hidden border-t border-white/5">
-      <div className="max-w-3xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Send us a Message
+    <section className="py-32 relative bg-[#030014] overflow-hidden">
+      {/* Background Atmosphere */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-blue-600/10 blur-[130px] rounded-full pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-purple-600/5 blur-[150px] rounded-full pointer-events-none"></div>
+
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col items-center text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center justify-center px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-[10px] font-bold tracking-wider text-blue-400 uppercase mb-6"
+          >
+            Get In Touch
+          </motion.div>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
+            Let's Build Something <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Amazing</span>
           </h2>
-          <p className="text-slate-400">
-            Fill out the form below and we'll get back to you within 24 hours.
+          <p className="text-slate-400 text-lg max-w-2xl leading-relaxed">
+            Have a project in mind? Fill out the form below and our team will get back to you within 24 hours to discuss your vision.
           </p>
         </div>
 
-        <div className="bg-[#0A0A12] border border-white/10 rounded-2xl p-8 md:p-10 shadow-2xl">
-          {state.succeeded ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-12"
-            >
-              <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500">
-                <CheckCircle2 size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-              <p className="text-slate-400">Thanks for reaching out. We'll be in touch shortly.</p>
-            </motion.div>
-          ) : (
-            <form onSubmit={onSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-slate-300">Name</label>
-                  <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    required
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder:text-slate-600"
-                    placeholder="John Doe"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-slate-300">Email</label>
-                  <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    required
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder:text-slate-600"
-                    placeholder="john@example.com"
-                  />
-                </div>
-              </div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative rounded-3xl p-[1px] bg-gradient-to-b from-white/10 via-white/5 to-transparent overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-              <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium text-slate-300">Subject</label>
-                <input
-                  id="subject"
-                  type="text"
-                  name="subject"
-                  required
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder:text-slate-600"
-                  placeholder="Project Inquiry"
-                />
-              </div>
+          <div className="bg-[#0A0A12]/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 relative overflow-hidden">
+            {/* Inner lighting effect */}
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none"></div>
 
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-slate-300">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={5}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder:text-slate-600 resize-none"
-                  placeholder="Tell us about your project or questions..."
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                disabled={state.submitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 rounded-lg transition-all transform hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+            {state.succeeded ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-20 flex flex-col items-center justify-center min-h-[400px]"
               >
-                {state.submitting ? (
-                  <>Sending...</>
-                ) : (
-                  <>Send Message <ArrowRight size={18} /></>
-                )}
-              </button>
-              {state.errors && state.errors.length > 0 && (
-                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm text-center">
-                  {state.errors.map((err: any, i: number) => (
-                    <p key={i}>{err.message}</p>
-                  ))}
+                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-green-400 shadow-[0_0_40px_rgba(74,222,128,0.2)]">
+                  <CheckCircle2 size={40} />
                 </div>
-              )}
-            </form>
-          )}
-        </div>
+                <h3 className="text-3xl font-bold text-white mb-4">Message Sent Successfully!</h3>
+                <p className="text-slate-400 text-lg max-w-md">Thank you for reaching out. We have received your message and will be in touch shortly.</p>
+              </motion.div>
+            ) : (
+              <form onSubmit={onSubmit} className="space-y-8 relative z-10">
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-3 group">
+                    <label htmlFor="name" className="text-sm font-semibold text-slate-300 ml-1 group-focus-within:text-blue-400 transition-colors">Name</label>
+                    <input
+                      id="name"
+                      type="text"
+                      name="name"
+                      required
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-6 py-4 text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all duration-300"
+                      placeholder="Enter your full name"
+                    />
+                  </div>
+                  <div className="space-y-3 group">
+                    <label htmlFor="email" className="text-sm font-semibold text-slate-300 ml-1 group-focus-within:text-blue-400 transition-colors">Email</label>
+                    <input
+                      id="email"
+                      type="email"
+                      name="email"
+                      required
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-6 py-4 text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all duration-300"
+                      placeholder="Enter your email address"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-3 group">
+                  <label htmlFor="subject" className="text-sm font-semibold text-slate-300 ml-1 group-focus-within:text-blue-400 transition-colors">Subject</label>
+                  <input
+                    id="subject"
+                    type="text"
+                    name="subject"
+                    required
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-6 py-4 text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all duration-300"
+                    placeholder="What's your project about?"
+                  />
+                </div>
+
+                <div className="space-y-3 group">
+                  <label htmlFor="message" className="text-sm font-semibold text-slate-300 ml-1 group-focus-within:text-blue-400 transition-colors">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={6}
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-6 py-4 text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all duration-300 resize-none"
+                    placeholder="Tell us more about your requirements..."
+                  ></textarea>
+                </div>
+
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    disabled={state.submitting}
+                    className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-[length:200%_auto] hover:bg-right text-white font-bold py-5 rounded-xl transition-all duration-500 transform hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none flex justify-center items-center gap-3 text-lg"
+                  >
+                    {state.submitting ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        Sending Message...
+                      </>
+                    ) : (
+                      <>Send Message <ArrowRight size={20} /></>
+                    )}
+                  </button>
+                </div>
+
+                {state.errors && state.errors.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center"
+                  >
+                    {state.errors.map((err: any, i: number) => (
+                      <p key={i}>{err.message}</p>
+                    ))}
+                  </motion.div>
+                )}
+              </form>
+            )}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
