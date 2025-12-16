@@ -8,7 +8,7 @@ import {
   Linkedin, Instagram, Twitter,
   Lock,
 } from 'lucide-react';
-import { COMPANY_INFO, FEATURES, SERVICES, PROJECTS, TESTIMONIALS, PROCESS_STEPS } from '../constants';
+import { COMPANY_INFO, FEATURES, SERVICES, PROJECTS, TESTIMONIALS } from '../constants';
 import { GridBackground, ParticleDrift } from './ui/Backgrounds';
 import { SpotlightCard } from './ui/Spotlight';
 import { 

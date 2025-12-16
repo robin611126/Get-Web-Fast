@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { cms } from '../lib/cms';
 import { Navbar } from '../components/LandingPage';
