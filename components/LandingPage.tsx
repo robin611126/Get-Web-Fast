@@ -5,7 +5,7 @@ import {
   CheckCircle2, Menu, X, ArrowRight, ExternalLink, 
   MessageCircle, Phone, Mail, MapPin,
   Star, Rocket, ArrowUpRight, Crown, Quote,
-  Send, Linkedin, Instagram, Twitter,
+  Linkedin, Instagram, Twitter,
   Lock,
 } from 'lucide-react';
 import { COMPANY_INFO, FEATURES, SERVICES, PROJECTS, TESTIMONIALS, PROCESS_STEPS } from '../constants';

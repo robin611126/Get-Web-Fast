@@ -1,5 +1,5 @@
 import { 
-  Rocket, Search, 
+  Rocket, 
   ShoppingBag, 
   Briefcase, Code, Users,
 } from 'lucide-react';
@@ -161,6 +161,14 @@ export const PROJECTS = [
     description: "SAP is a landing page template designed to showcase SaaS and app information effectively.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop", 
     bg: "bg-gradient-to-br from-stone-800 to-stone-900"
+  },
+  {
+    id: 4,
+    name: "Waitlisty — Waitlist Landing Page",
+    category: "Waitlist",
+    description: "The ideal template for crafting a sleek and efficient waitlist landing page for your upcoming product.",
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2670&auto=format&fit=crop", 
+    bg: "bg-gradient-to-br from-indigo-950 to-slate-900"
   },
   {
     id: 4,

@@ -3,8 +3,7 @@ import { Routes, Route, useNavigate, Link, useParams } from 'react-router-dom';
 import { cms, BlogPost } from '../../lib/cms';
 import { 
   LayoutDashboard, Plus, LogOut, Edit, Trash2, 
-  Save, Eye, ArrowLeft, Image as ImageIcon, Settings,
-  Type
+  Save, Eye, ArrowLeft, Image as ImageIcon, Settings
 } from 'lucide-react';
 
 // --- Login Component ---

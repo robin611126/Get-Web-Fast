@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { cms } from '../lib/cms';
 import { Navbar } from '../components/LandingPage';
 import { format } from 'date-fns';
-import { Clock, ArrowLeft, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { Clock, ArrowLeft, Facebook, Twitter, Linkedin } from 'lucide-react';
 
 const SinglePost = () => {
   const { slug } = useParams();
