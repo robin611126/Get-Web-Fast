@@ -171,7 +171,7 @@ export const PROJECTS = [
     bg: "bg-gradient-to-br from-indigo-950 to-slate-900"
   },
   {
-    id: 4,
+    id: 5,
     name: "Waitlisty — Waitlist Landing Page",
     category: "Waitlist",
     description: "The ideal template for crafting a sleek and efficient waitlist landing page for your upcoming product.",
