@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export interface BlogPost {
   id: string;
   title: string;
@@ -21,6 +19,16 @@ export interface BlogPost {
 
 const STORAGE_KEY = 'gwf_cms_posts';
 const AUTH_KEY = 'gwf_cms_auth';
+
+// --- Helpers ---
+
+// Native UUID generator to avoid dependency/type issues
+const uuidv4 = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+};
 
 // --- Initial Data ---
 const INITIAL_POSTS: BlogPost[] = [
