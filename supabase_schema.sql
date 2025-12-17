@@ -44,6 +44,10 @@ CREATE TABLE IF NOT EXISTS public.services (
     time TEXT,
     best_for TEXT,
     is_premium BOOLEAN DEFAULT FALSE,
+    discount_percent INTEGER DEFAULT 0,
+    original_price TEXT,
+    tags TEXT[],
+    coupon_code TEXT,
     icon_name TEXT, -- Store the icon component name as string
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -67,6 +71,14 @@ CREATE TABLE IF NOT EXISTS public.projects (
     description TEXT,
     image TEXT,
     bg_class TEXT, -- e.g. "bg-gradient-to-br..."
+    slug TEXT UNIQUE,
+    client_name TEXT,
+    challenge TEXT,
+    solution TEXT,
+    results TEXT,
+    tech_stack TEXT[],
+    live_url TEXT,
+    gallery_images TEXT[],
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -77,5 +89,27 @@ CREATE POLICY "Public can view projects" ON public.projects
     USING (true);
 
 CREATE POLICY "Authenticated users can manage projects" ON public.projects
+    FOR ALL
+    USING (auth.role() = 'authenticated');
+
+
+-- 4. Testimonials Table
+CREATE TABLE IF NOT EXISTS public.testimonials (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,
+    role TEXT,
+    text TEXT NOT NULL,
+    image TEXT,
+    rating INTEGER DEFAULT 5,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public can view testimonials" ON public.testimonials
+    FOR SELECT
+    USING (true);
+
+CREATE POLICY "Authenticated users can manage testimonials" ON public.testimonials
     FOR ALL
     USING (auth.role() = 'authenticated');

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import {
   CheckCircle2, Menu, X, ArrowRight, ExternalLink,
   MessageCircle, Phone, Mail, MapPin,
   Star, Rocket, ArrowUpRight, Crown, Quote,
   Linkedin, Instagram, Twitter,
-  Lock,
+  Lock, Briefcase, ShoppingBag, Users, Code, Globe, Smartphone
 } from 'lucide-react';
+import { cms, ServiceItem, ProjectItem, TestimonialItem } from '../lib/cms';
 import { COMPANY_INFO, FEATURES, SERVICES, PROJECTS, TESTIMONIALS } from '../constants';
 import { GridBackground, ParticleDrift } from './ui/Backgrounds';
 import { SpotlightCard } from './ui/Spotlight';
@@ -134,30 +135,30 @@ export const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#030014] border-b border-white/10 overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-full left-0 w-full bg-[#030014] border-t border-b border-white/10 shadow-2xl flex flex-col p-6 gap-4 md:hidden"
+            style={{ maxHeight: '85vh', overflowY: 'auto' }}
           >
-            <div className="flex flex-col p-6 gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-lg text-slate-300 cursor-pointer py-2"
-                >
-                  {link.name}
-                </a>
-              ))}
+            {navLinks.map((link) => (
               <a
-                href="#contact-us"
-                onClick={(e) => handleNavClick(e, '#contact-us')}
-                className="mt-4 flex items-center justify-center w-full py-4 bg-secondary/10 text-secondary border border-secondary/20 rounded-lg cursor-pointer font-semibold"
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="text-lg font-medium text-slate-300 hover:text-white hover:bg-white/5 px-4 py-3 rounded-xl transition-colors"
               >
-                Contact Us
+                {link.name}
               </a>
-            </div>
+            ))}
+            <a
+              href="#contact-us"
+              onClick={(e) => handleNavClick(e, '#contact-us')}
+              className="mt-2 flex items-center justify-center w-full py-4 bg-primary text-white font-bold rounded-xl active:scale-95 transition-transform"
+            >
+              Contact Us
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
@@ -188,7 +189,7 @@ const Hero = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
           </span>
-          Accepting New Projects for 2025
+          Accepting New Projects for 2026
           <ArrowRight size={12} className="ml-1 opacity-50" />
         </motion.div>
 
@@ -448,7 +449,24 @@ const WhyChooseUs = () => {
   );
 };
 
+// Icon mapping for dynamic services
+const ICON_MAP: Record<string, React.ElementType> = {
+  Rocket, Briefcase, ShoppingBag, Users, Code, Globe, Smartphone
+};
+
 const Services = () => {
+  const [services, setServices] = useState<ServiceItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await cms.getAllServices();
+      setServices(data);
+      setLoading(false);
+    };
+    loadData();
+  }, []);
+
   const calculateOriginalPrice = (priceStr: string) => {
     // Simple helper to generate a fake "original" price that is 50% higher (multiplied by 2)
     const numericValue = parseInt(priceStr.replace(/[^0-9]/g, ''));
@@ -456,6 +474,8 @@ const Services = () => {
     const originalPrice = Math.floor(numericValue * 2);
     return `₹${originalPrice.toLocaleString('en-IN')}`;
   };
+
+  if (loading) return <div className="py-24 bg-[#030014] text-center text-white">Loading Services...</div>;
 
   return (
     <section id="services" className="py-24 bg-[#030014] relative overflow-hidden">
@@ -482,18 +502,25 @@ const Services = () => {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
 
-          {SERVICES.map((service) => {
-            // Identify if this is the Business Website service to highlight it
-            const isPopular = service.title === "Business Website";
-            const isPremium = service.title === "Premium Custom Build";
-            const originalPrice = calculateOriginalPrice(service.price);
+          {services.map((service) => {
+            // Check for tags
+            const isPopular = service.tags?.includes('Most Popular') || service.title === "Business Website";
+            const isPremium = service.is_premium;
+
+            // Icon mapping
+            const IconComp = ICON_MAP[service.icon_name] || Rocket;
+
+            // Price Calculation
+            const finalPrice = service.price; // Assuming this is the discounted price stored in DB or regular price
+            const originalPrice = service.original_price || (service.discount_percent > 0 ? `₹${Math.floor(parseInt(service.price.replace(/[^0-9]/g, '')) * (100 / (100 - service.discount_percent))).toLocaleString('en-IN')}` : null);
+
             const whatsappLink = getWhatsAppUrl(`Hi, I'm interested in the ${service.title} plan. Can you tell me more?`);
 
             return (
               <div
                 key={service.id}
                 className={`
-                  relative p-8 md:p-10 rounded-2xl border group overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(91,64,255,0.15)]
+                  relative p-8 md:p-10 rounded-3xl border group overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(91,64,255,0.15)] flex flex-col
                   ${isPremium ? 'md:col-span-2 bg-[#080810] border-purple-500/40 shadow-[0_0_80px_rgba(168,85,247,0.15)]' : ''}
                   ${!isPremium && isPopular
                     ? 'border-blue-500/50 bg-[#0A0A1B] shadow-[0_0_50px_rgba(59,130,246,0.1)]'
@@ -512,11 +539,11 @@ const Services = () => {
                   </>
                 )}
 
-                {/* Most Popular Badge */}
+                {/* Popular Badge */}
                 {isPopular && (
                   <div className="absolute top-0 right-0 z-20">
-                    <div className="bg-gradient-to-bl from-blue-600 to-indigo-600 text-white text-[10px] font-bold px-4 py-1.5 rounded-bl-xl shadow-lg">
-                      MOST POPULAR
+                    <div className="bg-gradient-to-bl from-blue-600 to-indigo-600 text-white text-[10px] font-bold px-4 py-1.5 rounded-bl-xl shadow-lg uppercase tracking-wider">
+                      Most Popular
                     </div>
                   </div>
                 )}
@@ -524,61 +551,88 @@ const Services = () => {
                 {/* Premium Badge */}
                 {isPremium && (
                   <div className="absolute top-0 right-0 z-20">
-                    <div className="flex items-center gap-2 bg-gradient-to-bl from-purple-600 to-pink-600 text-white text-[10px] font-bold px-5 py-2 rounded-bl-2xl shadow-[0_5px_20px_rgba(168,85,247,0.4)]">
+                    <div className="flex items-center gap-2 bg-gradient-to-bl from-purple-600 to-pink-600 text-white text-[10px] font-bold px-5 py-2 rounded-bl-2xl shadow-[0_5px_20px_rgba(168,85,247,0.4)] uppercase tracking-wider">
                       <Crown size={12} className="text-yellow-300 fill-yellow-300" />
-                      ELITE TIER
+                      Elite Tier
                     </div>
                   </div>
                 )}
 
-                {/* Spotlight/Glow Effect for Popular Card */}
+                {/* Spotlight Effect */}
                 {isPopular && (
-                  <div className="absolute inset-0 bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none mx-auto w-full"></div>
                 )}
 
                 <div className="relative z-10 flex flex-col h-full">
 
-                  {/* Top Row */}
-                  <div className="flex justify-between items-start mb-6">
-                    <h3 className={`text-2xl md:text-3xl font-bold text-white 
-                         ${isPopular ? 'text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-200' : ''}
-                         ${isPremium ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-white to-pink-200 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]' : ''}
+                  {/* Header Row: Icon and Title */}
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className={`p-3 rounded-2xl text-white group-hover:scale-110 transition-transform shadow-lg
+                        ${isPremium ? 'bg-gradient-to-br from-purple-500/20 to-pink-500/20 shadow-purple-500/10' : 'bg-white/5 border border-white/10'}
+                      `}>
+                      <IconComp size={32} className={isPremium ? 'text-purple-300' : 'text-blue-300'} />
+                    </div>
+                    <div>
+                      <h3 className={`text-2xl md:text-3xl font-bold text-white mb-1
+                          ${isPremium ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-white to-pink-200 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]' : ''}
                        `}>
-                      {service.title}
-                    </h3>
-                    <a
-                      href={whatsappLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`flex items-center gap-1.5 px-4 py-2 rounded-full border bg-white/5 hover:bg-white hover:text-black transition-all text-xs font-semibold uppercase tracking-wide group-hover:translate-x-1 duration-300
-                            ${isPremium ? 'border-purple-500/30 text-purple-200 hover:border-white' : 'border-white/10 hover:border-white'}
-                         `}
-                    >
-                      Contact Us <ArrowUpRight size={14} />
-                    </a>
+                        {service.title}
+                      </h3>
+                      {/* Tags */}
+                      {service.tags && service.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {service.tags.filter(t => t !== 'Most Popular').map(tag => (
+                            <span key={tag} className="text-[10px] uppercase font-bold px-2 py-0.5 rounded border border-white/10 text-slate-400 bg-white/5">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   {/* Description */}
-                  <p className="text-slate-400 mb-8 text-sm md:text-base leading-relaxed max-w-xl">
+                  <p className="text-slate-400 mb-8 text-sm leading-relaxed max-w-xl">
                     {service.description}
                   </p>
 
-                  {/* Price Tag with Comparison */}
-                  <div className="mb-8">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-slate-600 line-through text-lg font-medium decoration-slate-600/50 decoration-2">{originalPrice}</span>
-                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${isPremium ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-green-400/10 text-green-400 border border-green-400/20'}`}>
-                        Save 50%
-                      </span>
-                    </div>
-                    <div className={`text-4xl font-bold text-white flex items-baseline gap-2 ${isPremium ? 'drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]' : ''}`}>
-                      {service.price}
-                      <span className="text-sm font-normal text-slate-500 uppercase tracking-wide">/ starting</span>
+                  {/* Pricing Section - Highly Visual */}
+                  <div className="mb-8 p-4 rounded-xl bg-white/[0.03] border border-white/5 backdrop-blur-sm relative overflow-hidden group-hover:bg-white/[0.05] transition-colors">
+                    {/* Coupon Badge */}
+                    {service.coupon_code && (
+                      <div className="absolute top-0 right-0 bg-green-500/20 text-green-400 text-[10px] font-bold px-3 py-1 rounded-bl-lg border-l border-b border-green-500/20 flex items-center gap-1">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+                        USE: {service.coupon_code}
+                      </div>
+                    )}
+
+                    <div className="flex flex-col">
+                      {/* Discount Label */}
+                      {(service.discount_percent > 0 || originalPrice) && (
+                        <div className="flex items-center gap-3 mb-1">
+                          {service.discount_percent > 0 && (
+                            <span className="bg-gradient-to-r from-red-500 to-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                              {service.discount_percent}% OFF
+                            </span>
+                          )}
+                          {originalPrice && (
+                            <span className="text-slate-500 line-through text-sm font-medium decoration-slate-600/50 decoration-2">
+                              {originalPrice}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Main Price */}
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-3xl md:text-4xl font-bold text-white tracking-tight">{finalPrice}</span>
+                        <span className="text-sm font-medium text-slate-500">/ starting</span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Features List */}
-                  <ul className={`grid sm:grid-cols-2 gap-y-3 gap-x-6 mt-auto ${isPremium ? 'md:grid-cols-3' : ''}`}>
+                  <ul className={`grid sm:grid-cols-2 gap-y-3 gap-x-6 mb-8 ${isPremium ? 'md:grid-cols-3' : ''}`}>
                     {service.features.map((f, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm text-slate-300 group-hover:text-slate-200 transition-colors">
                         <CheckCircle2 className={`shrink-0 mt-0.5 
@@ -590,6 +644,26 @@ const Services = () => {
                       </li>
                     ))}
                   </ul>
+
+                  {/* CTA Button */}
+                  <div className="mt-auto">
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm uppercase tracking-wide transition-all duration-300
+                          ${isPremium
+                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] text-white border border-transparent'
+                          : isPopular
+                            ? 'bg-blue-600 hover:bg-blue-500 text-white hover:shadow-[0_0_25px_rgba(59,130,246,0.4)]'
+                            : 'bg-white/5 border border-white/10 hover:bg-white hover:text-black text-white'
+                        }
+                        `}
+                    >
+                      Book Now <ArrowRight size={16} />
+                    </a>
+                  </div>
+
                 </div>
               </div>
             );
@@ -625,6 +699,20 @@ const Services = () => {
 };
 
 const Projects = () => {
+  const [projects, setProjects] = useState<ProjectItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await cms.getAllProjects();
+      setProjects(data);
+      setLoading(false);
+    }
+    loadData();
+  }, []);
+
+  if (loading) return <div className="py-24 bg-[#030014] text-center text-white">Loading Projects...</div>;
+
   return (
     <section id="projects" className="py-24 bg-[#030014] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -641,7 +729,7 @@ const Projects = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {PROJECTS.map((project) => (
+          {projects.map((project) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
@@ -650,32 +738,34 @@ const Projects = () => {
               whileHover={{ y: -10 }}
               className="group relative rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A12]"
             >
-              <div className={`h-64 ${project.bg || 'bg-slate-800'} relative overflow-hidden`}>
-                <img
-                  src={project.image}
-                  alt={project.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-full text-white">
-                    <ArrowUpRight size={24} />
+              <Link to={`/projects/${project.slug || '#'}`}>
+                <div className={`h-64 ${project.bg_class || 'bg-slate-800'} relative overflow-hidden`}>
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-full text-white">
+                      <ArrowUpRight size={24} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="p-8">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <span className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2 block">{project.category}</span>
-                    <h3 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors">{project.name}</h3>
+                <div className="p-8">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <span className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2 block">{project.category}</span>
+                      <h3 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors">{project.name}</h3>
+                    </div>
+                  </div>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-sm font-medium text-white group-hover:underline decoration-blue-500 underline-offset-4">
+                    View Case Study <ArrowRight size={16} className="text-blue-500" />
                   </div>
                 </div>
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  {project.description}
-                </p>
-                <div className="flex items-center gap-2 text-sm font-medium text-white group-hover:underline decoration-blue-500 underline-offset-4">
-                  View Case Study <ArrowRight size={16} className="text-blue-500" />
-                </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -685,14 +775,29 @@ const Projects = () => {
 };
 
 const Testimonials = () => {
+  const [items, setItems] = useState<TestimonialItem[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const load = async () => {
+      const data = await cms.getAllTestimonials();
+      setItems(data);
+      setLoading(false);
+    };
+    load();
+  }, []);
+
+  useEffect(() => {
+    if (items.length === 0) return;
     const interval = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % TESTIMONIALS.length);
+      setActiveIndex((current) => (current + 1) % items.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [items]);
+
+  if (loading) return null;
+  if (items.length === 0) return null; // Or show a default state
 
   return (
     <section className="py-32 relative overflow-hidden bg-[#030014]">
@@ -741,11 +846,11 @@ const Testimonials = () => {
                 <Quote size={48} className="text-white mb-8 fill-white/20" />
 
                 <p className="text-xl md:text-2xl font-medium text-slate-200 mb-8 leading-relaxed max-w-2xl">
-                  "{TESTIMONIALS[activeIndex].text}"
+                  "{items[activeIndex].text}"
                 </p>
 
                 <div className="flex gap-1 mb-8">
-                  {[1, 2, 3, 4, 5].map((_, i) => (
+                  {[...Array(items[activeIndex].rating || 5)].map((_, i) => (
                     <Star key={i} size={18} className="text-yellow-400 fill-yellow-400" />
                   ))}
                 </div>
@@ -753,14 +858,14 @@ const Testimonials = () => {
                 <div className="flex items-center gap-4">
                   <div className="p-1 rounded-full border border-white/10 bg-white/5">
                     <img
-                      src={TESTIMONIALS[activeIndex].image}
-                      alt={TESTIMONIALS[activeIndex].name}
+                      src={items[activeIndex].image}
+                      alt={items[activeIndex].name}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                   </div>
                   <div className="text-left">
-                    <div className="font-bold text-white text-lg">{TESTIMONIALS[activeIndex].name}</div>
-                    <div className="text-sm text-blue-400 font-medium">{TESTIMONIALS[activeIndex].role}</div>
+                    <div className="font-bold text-white text-lg">{items[activeIndex].name}</div>
+                    <div className="text-sm text-blue-400 font-medium">{items[activeIndex].role}</div>
                   </div>
                 </div>
               </motion.div>
@@ -769,7 +874,7 @@ const Testimonials = () => {
 
           {/* Navigation Dots */}
           <div className="flex justify-center gap-3 mt-8">
-            {TESTIMONIALS.map((_, idx) => (
+            {items.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
@@ -1423,18 +1528,27 @@ const ContactForm = () => {
                       placeholder="Enter your email address"
                     />
                   </div>
-                </div>
-
-                <div className="space-y-3 group">
-                  <label htmlFor="subject" className="text-sm font-semibold text-slate-300 ml-1 group-focus-within:text-blue-400 transition-colors">Subject</label>
-                  <input
-                    id="subject"
-                    type="text"
-                    name="subject"
-                    required
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-6 py-4 text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all duration-300"
-                    placeholder="What's your project about?"
-                  />
+                  <div className="space-y-3 group">
+                    <label htmlFor="phone" className="text-sm font-semibold text-slate-300 ml-1 group-focus-within:text-blue-400 transition-colors">Phone Number</label>
+                    <input
+                      id="phone"
+                      type="tel"
+                      name="phone"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-6 py-4 text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all duration-300"
+                      placeholder="Enter your phone number"
+                    />
+                  </div>
+                  <div className="space-y-3 group">
+                    <label htmlFor="subject" className="text-sm font-semibold text-slate-300 ml-1 group-focus-within:text-blue-400 transition-colors">Subject</label>
+                    <input
+                      id="subject"
+                      type="text"
+                      name="subject"
+                      required
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-6 py-4 text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:bg-white/[0.06] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all duration-300"
+                      placeholder="What's your project about?"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-3 group">
