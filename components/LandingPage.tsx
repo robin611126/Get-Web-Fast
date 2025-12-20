@@ -168,7 +168,7 @@ export const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-[120vh] flex flex-col items-center pt-24 md:pt-32 lg:pt-48 overflow-visible">
+    <section id="home" className="relative min-h-screen md:min-h-[120vh] flex flex-col items-center pt-28 md:pt-32 lg:pt-48 overflow-visible">
 
       {/* --- Cosmic Horizon Background --- */}
       {/* Top light bloom - Constrained width to prevent horizontal scroll */}
@@ -183,7 +183,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-secondary mb-8 hover:bg-white/10 transition-colors backdrop-blur-md cursor-default"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-secondary mb-6 md:mb-8 hover:bg-white/10 transition-colors backdrop-blur-md cursor-default"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
@@ -198,7 +198,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1] md:leading-[1.1]"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6 md:mb-8 leading-[1.1] md:leading-[1.1]"
         >
           Websites Delivered Fast. <br className="hidden md:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-white to-primary drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
@@ -211,7 +211,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl leading-relaxed"
+          className="text-lg md:text-xl text-slate-400 mb-8 md:mb-10 max-w-2xl leading-relaxed"
         >
           Modern, responsive websites delivered in days — not weeks.
         </motion.p>
@@ -221,7 +221,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex flex-col items-center mb-20 w-full"
+          className="flex flex-col items-center mb-12 md:mb-20 w-full"
         >
           <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full sm:w-auto">
             <motion.a
