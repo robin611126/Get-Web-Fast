@@ -193,6 +193,20 @@ export const cms = {
   },
 
   deletePost: async (id: string) => {
+    // Check for cover image
+    const { data: post } = await supabase
+      .from('posts')
+      .select('cover_image') // Note: DB column is cover_image
+      .eq('id', id)
+      .single();
+
+    if (post && post.cover_image) {
+      const parts = post.cover_image.split('/uploads/');
+      if (parts.length > 1) {
+        await supabase.storage.from('uploads').remove([parts[1]]);
+      }
+    }
+
     const { error } = await supabase
       .from('posts')
       .delete()
@@ -300,6 +314,48 @@ export const cms = {
   },
 
   deleteProject: async (id: string) => {
+    // 1. Get the project to find the image URL
+    const { data: project } = await supabase
+      .from('projects')
+      .select('image, gallery_images')
+      .eq('id', id)
+      .single();
+
+    if (project) {
+      // Helper to extract file path from public URL
+      const getPath = (url: string) => {
+        if (!url) return null;
+        // Assumes URL format: .../storage/v1/object/public/uploads/filename.ext
+        // or .../storage/v1/object/public/bucketName/filename.ext
+        const parts = url.split('/public/');
+        if (parts.length > 1) {
+          // The part after 'public/' generally includes the bucket name part in getPublicUrl logic depending on config,
+          // but usually the storage API needs 'bucket/path'.
+          // If using standard supabase getPublicUrl:
+          // url is: https://<project>.supabase.co/storage/v1/object/public/uploads/<filename>
+          // So split by 'uploads/' might be safer if we know the bucket.
+
+          // Let's assume bucket is 'uploads' as per our uploadImage logic.
+          const pathParts = url.split('/uploads/');
+          if (pathParts.length > 1) return pathParts[1];
+        }
+        return null;
+      };
+
+      const imagePath = getPath(project.image);
+      if (imagePath) {
+        await supabase.storage.from('uploads').remove([imagePath]);
+      }
+
+      // Also cleanup gallery images if needed
+      if (project.gallery_images && project.gallery_images.length > 0) {
+        const paths = project.gallery_images.map((getUrl: string) => getPath(getUrl)).filter((p: string | null) => p !== null) as string[];
+        if (paths.length > 0) {
+          await supabase.storage.from('uploads').remove(paths);
+        }
+      }
+    }
+
     const { error } = await supabase
       .from('projects')
       .delete()
@@ -344,6 +400,20 @@ export const cms = {
   },
 
   deleteTestimonial: async (id: string) => {
+    // Check for image
+    const { data: item } = await supabase
+      .from('testimonials')
+      .select('image')
+      .eq('id', id)
+      .single();
+
+    if (item && item.image) {
+      const parts = item.image.split('/uploads/');
+      if (parts.length > 1) {
+        await supabase.storage.from('uploads').remove([parts[1]]);
+      }
+    }
+
     const { error } = await supabase
       .from('testimonials')
       .delete()
