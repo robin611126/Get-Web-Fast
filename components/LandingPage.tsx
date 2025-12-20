@@ -17,6 +17,8 @@ import {
   OurStoryIcon, WhatDrivesUsIcon, OurApproachIcon, OurPromiseIcon,
   EmailIcon, LocationIcon, PhoneCallIcon
 } from './ui/Icons';
+import { AnimatedGradientText } from "./ui/animated-gradient-text";
+import { cn } from "../lib/utils";
 
 // --- Helpers ---
 
@@ -183,14 +185,22 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-secondary mb-6 md:mb-8 hover:bg-white/10 transition-colors backdrop-blur-md cursor-default"
+          className="mb-8"
         >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
-          </span>
-          Accepting New Projects for 2026
-          <ArrowRight size={12} className="ml-1 opacity-50" />
+          <AnimatedGradientText>
+            <span className="relative flex h-2 w-2 mr-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+            </span>
+            <span
+              className={cn(
+                `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
+              )}
+            >
+              Accepting New Projects for 2026
+            </span>
+            <ArrowRight size={12} className="ml-1 opacity-50 text-white" />
+          </AnimatedGradientText>
         </motion.div>
 
         {/* Main Headline */}
@@ -198,7 +208,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6 md:mb-8 leading-[1.1] md:leading-[1.1]"
+          className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-9xl font-black tracking-tighter text-white mb-8 leading-[0.95] md:leading-[0.9] drop-shadow-2xl"
         >
           Websites Delivered Fast. <br className="hidden md:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-white to-primary drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
@@ -1189,30 +1199,34 @@ const ContactUs = () => {
           {contactMethods.map((method, idx) => (
             <SpotlightCard
               key={idx}
-              className="p-8 bg-[#05050A] border-white/10 flex flex-col items-center text-center hover:border-blue-500/30 transition-all duration-300"
+              className="h-full p-8 bg-[#05050A] border-white/10 flex flex-col hover:border-blue-500/30 transition-all duration-300"
               spotlightColor="rgba(59, 130, 246, 0.1)"
             >
-              <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                <method.icon size={28} />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">{method.title}</h3>
-              <p className="text-slate-400 mb-6">{method.value}</p>
+              <div className="flex flex-col items-center text-center h-full w-full">
+                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <method.icon size={28} />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">{method.title}</h3>
+                <p className="text-slate-400 mb-6 flex-1 flex items-center justify-center">{method.value}</p>
 
-              {method.onClick ? (
-                <button
-                  onClick={method.onClick}
-                  className="px-6 py-2 rounded-full border border-white/10 bg-white/5 text-sm font-medium text-white hover:bg-white/10 hover:border-white/20 transition-all"
-                >
-                  {method.action}
-                </button>
-              ) : (
-                <a
-                  href={method.link}
-                  className="px-6 py-2 rounded-full border border-white/10 bg-white/5 text-sm font-medium text-white hover:bg-white/10 hover:border-white/20 transition-all"
-                >
-                  {method.action}
-                </a>
-              )}
+                <div className="mt-auto w-full">
+                  {method.onClick ? (
+                    <button
+                      onClick={method.onClick}
+                      className="w-full py-3 rounded-full border border-white/10 bg-white/5 text-sm font-medium text-white hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center"
+                    >
+                      {method.action}
+                    </button>
+                  ) : (
+                    <a
+                      href={method.link}
+                      className="w-full py-3 rounded-full border border-white/10 bg-white/5 text-sm font-medium text-white hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center"
+                    >
+                      {method.action}
+                    </a>
+                  )}
+                </div>
+              </div>
             </SpotlightCard>
           ))}
         </div>
@@ -1467,11 +1481,11 @@ const ContactForm = () => {
             viewport={{ once: true }}
             className="inline-flex items-center justify-center px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-[10px] font-bold tracking-wider text-blue-400 uppercase mb-6"
           >
-            Get In Touch
+            Free Consultation
           </motion.div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
-            Let's Build Something <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Amazing</span>
+            Get a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">FREE Quote</span>
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl leading-relaxed">
             Have a project in mind? Fill out the form below and our team will get back to you within 24 hours to discuss your vision.
