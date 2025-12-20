@@ -208,7 +208,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-9xl font-black tracking-normal text-white mb-8 leading-[0.95] md:leading-[0.9] drop-shadow-2xl"
+          className="text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-9xl font-black tracking-normal text-white mb-8 leading-[1.1] md:leading-[0.9] drop-shadow-2xl"
         >
           Websites Delivered Fast. <br className="hidden md:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-white to-primary drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
