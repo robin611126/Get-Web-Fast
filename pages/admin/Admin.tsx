@@ -7,6 +7,58 @@ import {
   Briefcase, Code, MessageCircle, Menu, X
 } from 'lucide-react';
 
+// --- Image Uploader Component ---
+const ImageUploader = ({ value, onChange, label }: { value: string, onChange: (url: string) => void, label: string }) => {
+  const [uploading, setUploading] = useState(false);
+  const id = React.useId();
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    setUploading(true);
+    try {
+      const url = await cms.uploadImage(e.target.files[0]);
+      onChange(url);
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div>
+      <label className="flex items-center gap-2 text-sm text-slate-400 mb-2 font-semibold">
+        <ImageIcon size={14} /> {label}
+      </label>
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="https://... or upload file"
+            className="flex-1 bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="hidden"
+            id={id}
+          />
+          <label
+            htmlFor={id}
+            className={`px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-xs font-bold cursor-pointer text-white transition-colors flex items-center justify-center whitespace-nowrap ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
+          >
+            {uploading ? '...' : 'Upload'}
+          </label>
+        </div>
+      </div>
+      {value && <img src={value} className="mt-2 rounded-lg h-32 w-full object-cover border border-white/10" />}
+    </div>
+  );
+};
+
 // --- Login Component ---
 const Login = ({ onLogin }: { onLogin: () => void }) => {
   const [email, setEmail] = useState('');
@@ -247,18 +299,11 @@ const PostEditor = ({ id }: { id?: string }) => {
         <div className="w-full lg:w-80 bg-[#0A0A12] overflow-y-auto p-6 space-y-6 border-t lg:border-t-0 lg:border-l border-white/10 order-2 h-auto max-h-[40vh] lg:max-h-full lg:h-full">
 
           {/* Cover Image */}
-          <div>
-            <label className="flex items-center gap-2 text-sm text-slate-400 mb-2 font-semibold">
-              <ImageIcon size={14} /> Cover Image URL
-            </label>
-            <input
-              type="text"
-              value={post.coverImage}
-              onChange={(e) => setPost({ ...post, coverImage: e.target.value })}
-              className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
-            />
-            {post.coverImage && <img src={post.coverImage} className="mt-2 rounded-lg h-24 w-full object-cover opacity-50" />}
-          </div>
+          <ImageUploader
+            label="Cover Image"
+            value={post.coverImage || ''}
+            onChange={(url) => setPost({ ...post, coverImage: url })}
+          />
 
           {/* Metadata */}
           <div className="space-y-4">
@@ -693,9 +738,11 @@ const ProjectEditor = ({ id }: { id?: string }) => {
                 <input type="text" placeholder="https://..." value={project.live_url} onChange={e => setProject({ ...project, live_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-slate-400 mb-1">Cover Image URL</label>
-                <input type="text" placeholder="Image URL" value={project.image} onChange={e => setProject({ ...project, image: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white" />
-                {project.image && <img src={project.image} className="h-24 mt-2 rounded-lg object-cover" />}
+                <ImageUploader
+                  label="Cover Image"
+                  value={project.image || ''}
+                  onChange={(url) => setProject({ ...project, image: url })}
+                />
               </div>
               <div>
                 <label className="block text-sm text-slate-400 mb-1">Background Class</label>
@@ -816,8 +863,11 @@ const TestimonialEditor = ({ id }: { id?: string }) => {
           <input type="text" placeholder="Client Name" value={item.name} onChange={e => setItem({ ...item, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white" />
           <input type="text" placeholder="Role / Company" value={item.role} onChange={e => setItem({ ...item, role: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white" />
           <textarea placeholder="Testimonial Text" rows={4} value={item.text} onChange={e => setItem({ ...item, text: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white" />
-          <input type="text" placeholder="Image URL (Avatar)" value={item.image} onChange={e => setItem({ ...item, image: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white" />
-          {item.image && <img src={item.image} className="w-16 h-16 rounded-full object-cover" />}
+          <ImageUploader
+            label="Avatar Image"
+            value={item.image || ''}
+            onChange={(url) => setItem({ ...item, image: url })}
+          />
 
           <div>
             <label className="text-slate-400 text-sm mb-1 block">Rating (1-5)</label>

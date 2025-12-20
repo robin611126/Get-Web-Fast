@@ -391,5 +391,29 @@ export const cms = {
   getSession: async () => {
     const { data: { session } } = await supabase.auth.getSession();
     return session;
+  },
+
+  // --- Storage ---
+  uploadImage: async (file: File): Promise<string> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    // Try 'uploads' bucket first, then 'public'
+    let bucketName = 'uploads';
+
+    let { error: uploadError } = await supabase.storage
+      .from(bucketName)
+      .upload(filePath, file);
+
+    if (uploadError) {
+      // If bucket doesn't exist or other error, try 'public' default bucket if it exists, or just error out
+      // For now, let's assume 'uploads' is the target. Creating a bucket via API requires admin key usually.
+      console.error('Error uploading to "uploads":', uploadError);
+      throw new Error(`Upload failed: ${uploadError.message}. Ensure a public bucket named "uploads" exists in Supabase.`);
+    }
+
+    const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath);
+    return data.publicUrl;
   }
 };

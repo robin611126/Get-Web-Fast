@@ -5,7 +5,7 @@ import {
   CheckCircle2, Menu, X, ArrowRight, ExternalLink,
   MessageCircle, Phone, Mail, MapPin,
   Star, Rocket, ArrowUpRight, Crown, Quote,
-  Linkedin, Instagram, Twitter,
+  Linkedin, Instagram, Facebook, Youtube,
   Lock, Briefcase, ShoppingBag, Users, Code, Globe, Smartphone
 } from 'lucide-react';
 import { cms, ServiceItem, ProjectItem, TestimonialItem } from '../lib/cms';
@@ -1302,14 +1302,17 @@ const Footer = () => {
               <a href={getWhatsAppUrl("Hi, I'm contacting you via your website.")} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-secondary hover:text-black transition-all">
                 <ExternalLink size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#1DA1F2] hover:text-white transition-all">
-                <Twitter size={18} />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#E1306C] hover:text-white transition-all">
+              <a href="https://www.instagram.com/getwebfast?igsh=dzd2YjRsNDl3bXo1" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#E1306C] hover:text-white transition-all">
                 <Instagram size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#0077B5] hover:text-white transition-all">
+              <a href="https://www.facebook.com/share/1FedTp7rSE/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#1877F2] hover:text-white transition-all">
+                <Facebook size={18} />
+              </a>
+              <a href="https://www.linkedin.com/in/get-web-fast-387a593a0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#0077B5] hover:text-white transition-all">
                 <Linkedin size={18} />
+              </a>
+              <a href="https://youtube.com/@getwebfast?si=HlTplP4vSGZw2CRY" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#FF0000] hover:text-white transition-all">
+                <Youtube size={18} />
               </a>
             </div>
           </div>
