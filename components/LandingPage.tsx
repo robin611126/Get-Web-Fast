@@ -740,9 +740,9 @@ const Projects = () => {
         </div>
 
         {/* Marquee Container */}
-        <div className="relative w-full overflow-hidden mask-image-gradient-horizontal">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#030014] to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#030014] to-transparent z-20 pointer-events-none" />
+        <div className="relative w-full overflow-hidden md:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#030014] to-transparent z-20 pointer-events-none" />
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#030014] to-transparent z-20 pointer-events-none" />
 
           <motion.div
             className="flex gap-6 w-max"
