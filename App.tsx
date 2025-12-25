@@ -3,6 +3,7 @@ import { LandingPage } from './components/LandingPage';
 import PublicBlog from './pages/PublicBlog';
 import SinglePost from './pages/SinglePost';
 import CaseStudy from './pages/CaseStudy';
+import AllProjects from './pages/AllProjects';
 import Admin from './pages/admin/Admin';
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
       <Route path="/blog" element={<PublicBlog />} />
       <Route path="/blog/:slug" element={<SinglePost />} />
       <Route path="/projects/:slug" element={<CaseStudy />} />
+      <Route path="/projects" element={<AllProjects />} />
 
 
       {/* Private Admin Route */}

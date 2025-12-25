@@ -82,6 +82,7 @@ export const Navbar = () => {
   };
 
   const navLinks = [
+    { name: 'Home', href: '#home' },
     { name: 'Services', href: '#services' },
     { name: 'Projects', href: '#projects' },
     { name: 'Process', href: '#process' },
@@ -738,46 +739,63 @@ const Projects = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-              className="group relative rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A12]"
-            >
-              <Link to={`/projects/${project.slug || '#'}`}>
-                <div className={`h-64 ${project.bg_class || 'bg-slate-800'} relative overflow-hidden`}>
-                  <img
-                    src={project.image}
-                    alt={project.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-full text-white">
-                      <ArrowUpRight size={24} />
+        {/* Marquee Container */}
+        <div className="relative w-full overflow-hidden mask-image-gradient-horizontal">
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#030014] to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#030014] to-transparent z-20 pointer-events-none" />
+
+          <motion.div
+            className="flex gap-6 w-max"
+            animate={{ x: "-50%" }}
+            transition={{
+              ease: "linear",
+              duration: 60,
+              repeat: Infinity
+            }}
+          >
+            {/* Duplicated List for Infinite Loop (Triple ensure enough width) */}
+            {[...projects.slice(0, 6), ...projects.slice(0, 6), ...projects.slice(0, 6)].map((project, idx) => (
+              <div
+                key={`${project.id}-${idx}`}
+                className="group relative rounded-xl overflow-hidden border border-white/10 bg-[#0A0A12] flex-shrink-0 w-[280px] md:w-[380px]"
+              >
+                <Link to={`/projects/${project.slug || '#'}`} className="block h-full">
+                  <div className={`h-40 ${project.bg_class || 'bg-slate-800'} relative overflow-hidden`}>
+                    <img
+                      src={project.image}
+                      alt={project.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="bg-white/10 backdrop-blur-md border border-white/20 p-2.5 rounded-full text-white">
+                        <ArrowUpRight size={20} />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="p-8">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <span className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2 block">{project.category}</span>
-                      <h3 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors">{project.name}</h3>
+                  <div className="p-4 md:p-6">
+                    <div className="mb-2 md:mb-4">
+                      <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider mb-1 block">{project.category}</span>
+                      <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">{project.name}</h3>
+                    </div>
+                    {/* Description removed for minimal toggle */}
+                    <div className="md:hidden flex items-center gap-2 text-xs font-medium text-white group-hover:underline decoration-blue-500 underline-offset-4">
+                      View Case Study <ArrowRight size={14} className="text-blue-500" />
                     </div>
                   </div>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                    {project.description}
-                  </p>
-                  <div className="flex items-center gap-2 text-sm font-medium text-white group-hover:underline decoration-blue-500 underline-offset-4">
-                    View Case Study <ArrowRight size={16} className="text-blue-500" />
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                </Link>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* View All Projects Button */}
+        <div className="mt-16 text-center">
+          <Link
+            to="/projects"
+            className="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white font-bold py-4 px-8 rounded-full border border-white/10 transition-all hover:scale-105"
+          >
+            View All Projects <ArrowRight size={20} />
+          </Link>
         </div>
       </div>
     </section>

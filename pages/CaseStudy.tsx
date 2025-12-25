@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { cms, ProjectItem } from '../lib/cms';
 import { Navbar } from '../components/LandingPage';
 import { ArrowLeft, ExternalLink, Code2, Layers, Cpu, CheckCircle, Calendar, User } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 const CaseStudy = () => {
     const { slug } = useParams();
@@ -144,7 +145,20 @@ const CaseStudy = () => {
                                     <h2 className="text-3xl font-black mb-6 flex items-center gap-4 text-white">
                                         The Challenge
                                     </h2>
-                                    <p className="text-slate-300 leading-8 text-lg md:text-xl whitespace-pre-wrap font-light">{project.challenge}</p>
+                                    <div className="text-slate-300 leading-8 text-lg md:text-xl font-light prose prose-invert max-w-none prose-headings:text-white prose-a:text-blue-400">
+                                        <ReactMarkdown components={{
+                                            h1: ({ node, ...props }: any) => <h3 className="text-2xl font-bold text-white mt-6 mb-4" {...props} />,
+                                            h2: ({ node, ...props }: any) => <h4 className="text-xl font-bold text-white mt-5 mb-3" {...props} />,
+                                            h3: ({ node, ...props }: any) => <h5 className="text-lg font-bold text-white mt-4 mb-2" {...props} />,
+                                            ul: ({ node, ...props }: any) => <ul className="list-disc pl-5 space-y-2 mb-4" {...props} />,
+                                            ol: ({ node, ...props }: any) => <ol className="list-decimal pl-5 space-y-2 mb-4" {...props} />,
+                                            li: ({ node, ...props }: any) => <li className="pl-1" {...props} />,
+                                            p: ({ node, ...props }: any) => <p className="mb-4" {...props} />,
+                                            strong: ({ node, ...props }: any) => <strong className="text-white font-semibold" {...props} />,
+                                        }}>
+                                            {project.challenge}
+                                        </ReactMarkdown>
+                                    </div>
                                 </section>
                             )}
 
@@ -153,7 +167,20 @@ const CaseStudy = () => {
                                     <h2 className="text-3xl font-black mb-6 flex items-center gap-4 text-white">
                                         Our Approach
                                     </h2>
-                                    <p className="text-slate-300 leading-8 text-lg md:text-xl whitespace-pre-wrap font-light">{project.solution}</p>
+                                    <div className="text-slate-300 leading-8 text-lg md:text-xl font-light prose prose-invert max-w-none prose-headings:text-white prose-a:text-blue-400">
+                                        <ReactMarkdown components={{
+                                            h1: ({ node, ...props }: any) => <h3 className="text-2xl font-bold text-white mt-6 mb-4" {...props} />,
+                                            h2: ({ node, ...props }: any) => <h4 className="text-xl font-bold text-white mt-5 mb-3" {...props} />,
+                                            h3: ({ node, ...props }: any) => <h5 className="text-lg font-bold text-white mt-4 mb-2" {...props} />,
+                                            ul: ({ node, ...props }: any) => <ul className="list-disc pl-5 space-y-2 mb-4" {...props} />,
+                                            ol: ({ node, ...props }: any) => <ol className="list-decimal pl-5 space-y-2 mb-4" {...props} />,
+                                            li: ({ node, ...props }: any) => <li className="pl-1" {...props} />,
+                                            p: ({ node, ...props }: any) => <p className="mb-4" {...props} />,
+                                            strong: ({ node, ...props }: any) => <strong className="text-white font-semibold" {...props} />,
+                                        }}>
+                                            {project.solution}
+                                        </ReactMarkdown>
+                                    </div>
                                 </section>
                             )}
 
@@ -162,7 +189,20 @@ const CaseStudy = () => {
                                     <h2 className="text-3xl font-black mb-6 flex items-center gap-4 text-white">
                                         The Results
                                     </h2>
-                                    <p className="text-slate-300 leading-8 text-lg md:text-xl whitespace-pre-wrap font-light">{project.results}</p>
+                                    <div className="text-slate-300 leading-8 text-lg md:text-xl font-light prose prose-invert max-w-none prose-headings:text-white prose-a:text-blue-400">
+                                        <ReactMarkdown components={{
+                                            h1: ({ node, ...props }: any) => <h3 className="text-2xl font-bold text-white mt-6 mb-4" {...props} />,
+                                            h2: ({ node, ...props }: any) => <h4 className="text-xl font-bold text-white mt-5 mb-3" {...props} />,
+                                            h3: ({ node, ...props }: any) => <h5 className="text-lg font-bold text-white mt-4 mb-2" {...props} />,
+                                            ul: ({ node, ...props }: any) => <ul className="list-disc pl-5 space-y-2 mb-4" {...props} />,
+                                            ol: ({ node, ...props }: any) => <ol className="list-decimal pl-5 space-y-2 mb-4" {...props} />,
+                                            li: ({ node, ...props }: any) => <li className="pl-1" {...props} />,
+                                            p: ({ node, ...props }: any) => <p className="mb-4" {...props} />,
+                                            strong: ({ node, ...props }: any) => <strong className="text-white font-semibold" {...props} />,
+                                        }}>
+                                            {project.results}
+                                        </ReactMarkdown>
+                                    </div>
                                 </section>
                             )}
                         </div>
