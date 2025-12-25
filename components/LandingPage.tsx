@@ -421,7 +421,7 @@ const Services = () => {
                 className={`
                   relative rounded-3xl border group overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(91,64,255,0.15)] flex flex-col
                   ${isPremium
-                    ? 'md:col-span-2 bg-[#080810] border-purple-500/40 shadow-[0_0_80px_rgba(168,85,247,0.15)] p-8 md:p-12'
+                    ? 'md:col-span-2 bg-[#080810] border-purple-500/40 shadow-[0_0_80px_rgba(168,85,247,0.15)] p-6 md:p-10'
                     : 'p-6 md:p-8'
                   }
                   ${!isPremium && isPopular
@@ -468,15 +468,15 @@ const Services = () => {
                 <div className="relative z-10 flex flex-col h-full">
 
                   {/* Header Row: Icon and Title */}
-                  <div className={`flex items-start gap-4 ${isPremium ? 'mb-8' : 'mb-4'}`}>
+                  <div className={`flex items-start gap-4 ${isPremium ? 'mb-6' : 'mb-4'}`}>
                     <div className={`rounded-2xl text-white group-hover:scale-110 transition-transform shadow-lg shrink-0
                         ${isPremium ? 'p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 shadow-purple-500/10' : 'p-2.5 bg-white/5 border border-white/10'}
                       `}>
-                      <IconComp size={isPremium ? 32 : 24} className={isPremium ? 'text-purple-300' : 'text-blue-300'} />
+                      <IconComp size={isPremium ? 28 : 24} className={isPremium ? 'text-purple-300' : 'text-blue-300'} />
                     </div>
                     <div>
                       <h3 className={`font-bold text-white mb-1
-                          ${isPremium ? 'text-2xl md:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-white to-pink-200 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]' : 'text-xl md:text-2xl'}
+                          ${isPremium ? 'text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-white to-pink-200 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]' : 'text-xl md:text-2xl'}
                        `}>
                         {service.title}
                       </h3>
@@ -494,12 +494,12 @@ const Services = () => {
                   </div>
 
                   {/* Description */}
-                  <p className={`text-slate-400 text-sm leading-relaxed max-w-xl group-hover:text-slate-300 transition-colors ${isPremium ? 'mb-10 text-base' : 'mb-6'}`}>
+                  <p className={`text-slate-400 text-sm leading-relaxed max-w-xl group-hover:text-slate-300 transition-colors ${isPremium ? 'mb-6' : 'mb-6'}`}>
                     {service.description}
                   </p>
 
                   {/* Pricing Section - Highly Visual */}
-                  <div className={`rounded-xl bg-white/[0.03] border border-white/5 backdrop-blur-sm relative overflow-hidden group-hover:bg-white/[0.05] transition-colors ${isPremium ? 'mb-10 p-6' : 'mb-6 p-3'}`}>
+                  <div className={`rounded-xl bg-white/[0.03] border border-white/5 backdrop-blur-sm relative overflow-hidden group-hover:bg-white/[0.05] transition-colors ${isPremium ? 'mb-6 p-4' : 'mb-6 p-3'}`}>
                     {/* Coupon Badge */}
                     {service.coupon_code && (
                       <div className="absolute top-0 right-0 bg-green-500/20 text-green-400 text-[9px] font-bold px-2 py-0.5 rounded-bl-lg border-l border-b border-green-500/20 flex items-center gap-1">
@@ -527,14 +527,14 @@ const Services = () => {
 
                       {/* Main Price */}
                       <div className="flex items-baseline gap-1">
-                        <span className={`font-bold text-white tracking-tight ${isPremium ? 'text-4xl md:text-5xl' : 'text-2xl md:text-3xl'}`}>{finalPrice}</span>
+                        <span className={`font-bold text-white tracking-tight ${isPremium ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'}`}>{finalPrice}</span>
                         <span className="text-xs font-medium text-slate-500">/ starting</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Features List */}
-                  <ul className={`grid sm:grid-cols-2 gap-x-4 ${isPremium ? 'md:grid-cols-3 gap-y-4 mb-10' : 'gap-y-2 mb-6'}`}>
+                  <ul className={`grid sm:grid-cols-2 gap-x-4 ${isPremium ? 'md:grid-cols-3 gap-y-2 mb-6' : 'gap-y-2 mb-6'}`}>
                     {service.features.map((f, i) => (
                       <li key={i} className={`flex items-start gap-2 text-slate-300 group-hover:text-slate-200 transition-colors ${isPremium ? 'text-sm' : 'text-xs md:text-sm'}`}>
                         <CheckCircle2 className={`shrink-0 mt-0.5 
