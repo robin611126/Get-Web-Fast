@@ -171,8 +171,7 @@ export const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen md:min-h-[120vh] flex flex-col items-center pt-28 md:pt-32 lg:pt-48 overflow-visible">
-
+    <section id="home" className="relative min-h-screen flex flex-col items-center pt-28 md:pt-32 lg:pt-48 overflow-visible pb-32">
       {/* --- Cosmic Horizon Background --- */}
       {/* Top light bloom - Constrained width to prevent horizontal scroll */}
       <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] bg-primary/20 blur-[120px] rounded-[100%] pointer-events-none z-0 mix-blend-screen"></div>
@@ -262,118 +261,7 @@ const Hero = () => {
           </p>
         </motion.div>
 
-        {/* --- 3D Dashboard Mockup Centerpiece --- */}
-        <motion.div
-          initial={{ opacity: 0, y: 100, rotateX: 20 }}
-          animate={{ opacity: 1, y: 0, rotateX: 0 }}
-          transition={{ duration: 1, delay: 0.4, type: "spring", bounce: 0.2 }}
-          className="relative w-full max-w-6xl mx-auto perspective-[2000px] group"
-        >
-          {/* The Mockup Container - Tilted Perspective */}
-          <div className="relative z-10 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 bg-[#0F0E1F] aspect-[16/9] md:aspect-[21/9] transform transition-transform duration-700 hover:scale-[1.01] hover:shadow-[0_0_80px_rgba(91,64,255,0.15)]">
 
-            {/* Glossy sheen overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none z-20"></div>
-
-            {/* Browser Header */}
-            <div className="h-10 bg-[#030014] border-b border-white/5 flex items-center px-4 gap-2">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-              </div>
-              <div className="mx-auto h-6 w-1/3 bg-white/5 rounded-full text-[10px] flex items-center justify-center text-slate-500 font-mono border border-white/5">
-                getwebfast.com
-              </div>
-            </div>
-
-            {/* Inner Website Content (Miniature) */}
-            <div className="h-full w-full bg-background relative overflow-hidden flex flex-col">
-              {/* Internal Grid */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-
-              {/* Layout Content */}
-              <div className="p-4 md:p-12 grid grid-cols-12 gap-4 md:gap-6 h-full">
-                {/* Left Sidebar */}
-                <div className="hidden md:block col-span-2 h-full rounded-lg border border-white/5 bg-white/5 p-4 flex flex-col gap-3">
-                  <div className="w-8 h-8 rounded bg-primary/20 mb-4"></div>
-                  {[1, 2, 3, 4, 5].map(i => (
-                    <div key={i} className="h-2 w-full bg-white/10 rounded"></div>
-                  ))}
-                </div>
-
-                {/* Main Content Area */}
-                <div className="col-span-12 md:col-span-7 flex flex-col gap-4 md:gap-6">
-                  {/* Hero Banner inside Mockup */}
-                  <div className="h-32 md:h-48 rounded-lg bg-gradient-to-r from-surface to-black border border-white/5 relative overflow-hidden p-6 flex flex-col justify-center">
-                    <div className="w-32 h-6 bg-secondary/20 rounded mb-4"></div>
-                    <div className="w-3/4 h-8 bg-gradient-to-r from-white to-white/40 rounded mb-2"></div>
-                    <div className="w-1/2 h-8 bg-gradient-to-r from-white to-white/40 rounded"></div>
-                  </div>
-                  {/* Stats Row */}
-                  <div className="grid grid-cols-3 gap-2 md:gap-4">
-                    {[1, 2, 3].map(i => (
-                      <div key={i} className="h-16 md:h-24 rounded-lg bg-white/5 border border-white/5 p-2 md:p-4">
-                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/10 mb-2"></div>
-                        <div className="w-12 md:w-16 h-2 md:h-3 bg-white/20 rounded"></div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Right Panel */}
-                <div className="hidden md:block col-span-3 h-full rounded-lg bg-black/40 border border-white/5 p-4 relative overflow-hidden">
-                  {/* Abstract Chart */}
-                  <div className="absolute bottom-0 left-0 right-0 h-32 flex items-end justify-between px-2 pb-2 gap-1">
-                    {[30, 50, 40, 70, 50, 80, 60].map((h, i) => (
-                      <div key={i} className="flex-1 bg-gradient-to-t from-primary/50 to-secondary/50 rounded-t-sm" style={{ height: `${h}%` }}></div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Floating Popups - Hidden on mobile to prevent overflow/clutter */}
-
-          {/* Left Popup - Performance */}
-          <motion.div
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="hidden md:block absolute -left-12 top-1/4 z-30"
-          >
-            <div className="p-4 rounded-xl border border-white/10 bg-black/60 backdrop-blur-xl shadow-2xl flex items-center gap-4 hover:border-green-500/50 transition-colors">
-              <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
-                <CheckCircle2 size={20} />
-              </div>
-              <div>
-                <div className="text-xs text-slate-400 font-medium uppercase tracking-wider">Performance</div>
-                <div className="text-sm font-bold text-white">100/100 Score</div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Popup - Sales/Turnaround */}
-          <motion.div
-            animate={{ y: [0, 15, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="hidden md:block absolute -right-12 bottom-1/3 z-30"
-          >
-            <div className="p-4 rounded-xl border border-white/10 bg-black/60 backdrop-blur-xl shadow-2xl flex items-center gap-4 hover:border-secondary/50 transition-colors">
-              <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
-                <Rocket size={20} />
-              </div>
-              <div>
-                <div className="text-xs text-slate-400 font-medium uppercase tracking-wider">Delivery</div>
-                <div className="text-sm font-bold text-white">48 Hours</div>
-              </div>
-            </div>
-          </motion.div>
-
-        </motion.div>
-
-        {/* Reflection under the mockup */}
-        <div className="absolute bottom-[-100px] left-0 right-0 h-[200px] bg-gradient-to-t from-[#030014] via-[#030014] to-transparent z-20"></div>
       </div>
     </section>
   );
