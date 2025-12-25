@@ -171,7 +171,7 @@ export const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex flex-col items-center pt-28 md:pt-32 lg:pt-48 overflow-visible pb-32">
+    <section id="home" className="relative min-h-screen flex flex-col items-center pt-28 md:pt-32 lg:pt-48 overflow-visible pb-0 md:pb-32">
       {/* --- Cosmic Horizon Background --- */}
       {/* Top light bloom - Constrained width to prevent horizontal scroll */}
       <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] bg-primary/20 blur-[120px] rounded-[100%] pointer-events-none z-0 mix-blend-screen"></div>
@@ -290,12 +290,12 @@ const ScrollingText = () => {
   if (loading) return null;
 
   return (
-    <div className="w-full bg-black border-y-2 border-white/20 overflow-hidden py-2 relative z-20 flex flex-col divide-y divide-white/10">
+    <div className="w-full bg-black border-y border-white/20 overflow-hidden py-1 relative z-20 flex flex-col divide-y divide-white/10">
       {/* Background Subtle Grid - Made lighter/smaller */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:14px_24px]"></div>
 
       {banners.map((banner) => (
-        <div key={banner.id} className="relative w-full flex whitespace-nowrap overflow-hidden select-none py-2">
+        <div key={banner.id} className="relative w-full flex whitespace-nowrap overflow-hidden select-none py-1.5 md:py-2">
           {/* Fade Masks */}
           <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-black to-transparent z-10"></div>
           <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-black to-transparent z-10"></div>
@@ -313,7 +313,7 @@ const ScrollingText = () => {
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex gap-12 md:gap-24 items-center shrink-0">
                 <span className={`
-                    text-3xl md:text-6xl font-black italic tracking-tighter whitespace-pre
+                    text-xl sm:text-3xl md:text-6xl font-black italic tracking-tighter whitespace-pre
                     ${i % 2 === 0 ? 'text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]' : 'text-transparent bg-clip-text bg-gradient-to-r from-slate-500 to-slate-700'}
                   `}>
                   {banner.text}
@@ -329,7 +329,7 @@ const ScrollingText = () => {
 
 const WhyChooseUs = () => {
   return (
-    <section className="py-32 relative bg-[#030014] overflow-hidden">
+    <section className="pt-12 pb-24 md:py-32 relative bg-[#030014] overflow-hidden">
       {/* Background Ambience / Mesh */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-[#030014] to-[#030014] pointer-events-none" />
 
