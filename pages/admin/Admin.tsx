@@ -4,8 +4,9 @@ import { cms, BlogPost, ServiceItem, ProjectItem, TestimonialItem } from '../../
 import {
   LayoutDashboard, Plus, LogOut, Edit, Trash2,
   Save, Eye, ArrowLeft, Image as ImageIcon, Settings,
-  Briefcase, Code, MessageCircle, Menu, X
+  Briefcase, Code, MessageCircle, Menu, X, Type
 } from 'lucide-react';
+import { ScrollingBannerItem } from '../../lib/cms';
 
 // --- Image Uploader Component ---
 const ImageUploader = ({ value, onChange, label }: { value: string, onChange: (url: string) => void, label: string }) => {
@@ -879,6 +880,133 @@ const TestimonialEditor = ({ id }: { id?: string }) => {
   );
 };
 
+
+
+// --- Banners Manager ---
+const BannersManager = () => {
+  const [banners, setBanners] = useState<ScrollingBannerItem[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => { load(); }, []);
+  const load = async () => { const data = await cms.getAllScrollingBanners(); setBanners(data); };
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Are you sure you want to delete this banner?')) {
+      try {
+        // Optimistic update
+        setBanners(prev => prev.filter(b => b.id !== id));
+
+        await cms.deleteScrollingBanner(id);
+
+        // Reload to ensure sync
+        await load();
+      } catch (error: any) {
+        console.error("Failed to delete banner:", error);
+        alert(`Failed to delete banner: ${error.message || 'Unknown error'}`);
+        // Revert optimistic update if failed
+        load();
+      }
+    }
+  };
+
+  return (
+    <div className="p-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-white">Scrolling Banners</h1>
+        <button onClick={() => navigate('/admin/banners/new')} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"><Plus size={18} /> New Banner</button>
+      </div>
+      <div className="space-y-4">
+        {banners.map(b => (
+          <div key={b.id} className="bg-[#0F0E1F] border border-white/10 p-6 rounded-xl flex justify-between items-center group">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <span className={`text-xs font-bold px-2 py-0.5 rounded ${b.is_active ? 'bg-green-500/20 text-green-400' : 'bg-slate-700 text-slate-400'}`}>
+                  {b.is_active ? 'ACTIVE' : 'INACTIVE'}
+                </span>
+                <span className="text-xs text-slate-500 uppercase tracking-wider">{b.direction} • {b.speed}s</span>
+              </div>
+              <h3 className="font-bold text-xl text-white font-mono">{b.text}</h3>
+            </div>
+            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button onClick={() => navigate(`/admin/banners/${b.id}`)} className="p-2 hover:bg-white/10 rounded-lg text-slate-300"><Edit size={18} /></button>
+              <button onClick={() => handleDelete(b.id)} className="p-2 hover:bg-red-500/20 rounded-lg text-red-400"><Trash2 size={18} /></button>
+            </div>
+          </div>
+        ))}
+        {banners.length === 0 && <div className="text-slate-500 text-center py-8">No banners yet.</div>}
+      </div>
+    </div>
+  );
+};
+
+const BannerEditor = ({ id }: { id?: string }) => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [item, setItem] = useState<Partial<ScrollingBannerItem>>({
+    text: '', direction: 'left', speed: 30, is_active: true, order_index: 0
+  });
+
+  useEffect(() => {
+    if (id && id !== 'new') {
+      cms.getAllScrollingBanners().then(items => {
+        const found = items.find(i => i.id === id);
+        if (found) setItem(found);
+        setLoading(false);
+      });
+    } else { setLoading(false); }
+  }, [id]);
+
+  const handleSave = async () => {
+    try {
+      await cms.saveScrollingBanner({ ...item, id: id === 'new' ? undefined : id });
+      navigate('/admin/banners');
+    } catch (e) { alert('Error'); }
+  };
+
+  if (loading) return <div className="p-8 text-white">Loading...</div>;
+
+  return (
+    <div className="h-screen flex flex-col bg-[#030014]">
+      <div className="h-16 border-b border-white/10 bg-[#0A0A12] flex items-center justify-between px-6">
+        <div className="flex items-center gap-4">
+          <Link to="/admin/banners" className="text-slate-400 hover:text-white"><ArrowLeft size={20} /></Link>
+          <span className="text-white font-bold">{id === 'new' ? 'New Banner' : 'Edit Banner'}</span>
+        </div>
+        <button onClick={handleSave} className="bg-blue-600 text-white px-4 py-1.5 rounded-lg flex items-center gap-2"><Save size={16} /> Save</button>
+      </div>
+      <div className="flex-1 overflow-auto p-8">
+        <div className="max-w-2xl mx-auto space-y-6">
+          <div>
+            <label className="block text-sm text-slate-400 mb-1">Banner Text</label>
+            <input type="text" placeholder="GET WEB FAST..." value={item.text} onChange={e => setItem({ ...item, text: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 outline-none font-bold text-lg" />
+            <p className="text-xs text-slate-500 mt-2">Make it short, punchy, and use uppercase for impact.</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">Direction</label>
+              <select value={item.direction} onChange={e => setItem({ ...item, direction: e.target.value as any })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 outline-none">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-slate-400 mb-1">Animation Duration (s)</label>
+              <input type="number" value={item.speed} onChange={e => setItem({ ...item, speed: parseInt(e.target.value) })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-blue-500 outline-none" />
+              <p className="text-xs text-slate-500 mt-1">Higher = Slower</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/10">
+            <input type="checkbox" id="active" checked={item.is_active} onChange={e => setItem({ ...item, is_active: e.target.checked })} className="w-5 h-5 rounded border-white/20 bg-white/10 text-blue-600 focus:ring-blue-500" />
+            <label htmlFor="active" className="text-white font-medium cursor-pointer select-none">Active</label>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- Admin Components ---
 const SidebarItem = ({ to, icon: Icon, label, onClick }: any) => (
   <Link to={to} onClick={onClick} className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/5 rounded-lg transition-colors">
@@ -942,6 +1070,8 @@ const Admin = () => {
               <SidebarItem to="/admin/services" icon={Briefcase} label="Services" onClick={() => setIsMobileMenuOpen(false)} />
               <SidebarItem to="/admin/projects" icon={Code} label="Projects" onClick={() => setIsMobileMenuOpen(false)} />
               <SidebarItem to="/admin/testimonials" icon={MessageCircle} label="Testimonials" onClick={() => setIsMobileMenuOpen(false)} />
+
+              <SidebarItem to="/admin/banners" icon={Type} label="Banners" onClick={() => setIsMobileMenuOpen(false)} />
               <SidebarItem to="/" icon={Eye} label="View Live Site" onClick={() => setIsMobileMenuOpen(false)} />
             </nav>
           </div>
@@ -971,6 +1101,9 @@ const Admin = () => {
           <Route path="/projects/:id" element={<ProjectEditorWithParams />} />
           <Route path="/testimonials" element={<TestimonialsManager />} />
           <Route path="/testimonials/:id" element={<TestimonialEditorWithParams />} />
+
+          <Route path="/banners" element={<BannersManager />} />
+          <Route path="/banners/:id" element={<BannerEditorWithParams />} />
           <Route path="/editor/:id" element={<PostEditorWithParams />} />
         </Routes>
       </main>
@@ -993,6 +1126,10 @@ const ProjectEditorWithParams = () => {
 const TestimonialEditorWithParams = () => {
   const { id } = useParams();
   return <TestimonialEditor id={id} />;
+}
+const BannerEditorWithParams = () => {
+  const { id } = useParams();
+  return <BannerEditor id={id} />;
 }
 
 export default Admin;

@@ -8,7 +8,7 @@ import {
   Linkedin, Instagram, Facebook, Youtube,
   Lock, Briefcase, ShoppingBag, Users, Code, Globe, Smartphone
 } from 'lucide-react';
-import { cms, ServiceItem, ProjectItem, TestimonialItem } from '../lib/cms';
+import { cms, ServiceItem, ProjectItem, TestimonialItem, ScrollingBannerItem } from '../lib/cms';
 import { COMPANY_INFO, FEATURES, SERVICES, PROJECTS, TESTIMONIALS } from '../constants';
 import { GridBackground, ParticleDrift } from './ui/Backgrounds';
 import { SpotlightCard } from './ui/Spotlight';
@@ -264,6 +264,66 @@ const Hero = () => {
 
       </div>
     </section>
+  );
+};
+
+const ScrollingText = () => {
+  const [banners, setBanners] = useState<ScrollingBannerItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      const data = await cms.getAllScrollingBanners();
+      if (data && data.length > 0) {
+        setBanners(data.filter((b: any) => b.is_active));
+      } else {
+        setBanners([
+          { id: 'd1', text: 'GET WEB FAST. GET FOUND. GET CUSTOMERS.', direction: 'left', speed: 30, is_active: true, order_index: 0 },
+          { id: 'd2', text: 'WEBSITES DELIVERED IN 48 HOURS. START NOW.', direction: 'right', speed: 35, is_active: true, order_index: 1 }
+        ]);
+      }
+      setLoading(false);
+    };
+    load();
+  }, []);
+
+  if (loading) return null;
+
+  return (
+    <div className="w-full bg-black border-y-2 border-white/20 overflow-hidden py-2 relative z-20 flex flex-col divide-y divide-white/10">
+      {/* Background Subtle Grid - Made lighter/smaller */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+
+      {banners.map((banner) => (
+        <div key={banner.id} className="relative w-full flex whitespace-nowrap overflow-hidden select-none py-2">
+          {/* Fade Masks */}
+          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-black to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-black to-transparent z-10"></div>
+
+          <motion.div
+            className="flex gap-12 md:gap-24 items-center"
+            initial={{ x: banner.direction === 'left' ? "0%" : "-50%" }}
+            animate={{ x: banner.direction === 'left' ? "-50%" : "0%" }}
+            transition={{
+              ease: "linear",
+              duration: banner.speed || 30,
+              repeat: Infinity,
+            }}
+          >
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex gap-12 md:gap-24 items-center shrink-0">
+                <span className={`
+                    text-3xl md:text-6xl font-black italic tracking-tighter whitespace-pre
+                    ${i % 2 === 0 ? 'text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]' : 'text-transparent bg-clip-text bg-gradient-to-r from-slate-500 to-slate-700'}
+                  `}>
+                  {banner.text}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      ))}
+    </div>
   );
 };
 
@@ -1321,6 +1381,7 @@ export const LandingPage = () => {
       <Navbar />
       <main>
         <Hero />
+        <ScrollingText />
         <WhyChooseUs />
         <Services />
         <Projects />

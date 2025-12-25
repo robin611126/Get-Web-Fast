@@ -4,7 +4,7 @@ import React from 'react';
 export interface Feature {
   title: string;
   description: string;
-  icon: React.ElementType; 
+  icon: React.ElementType;
 }
 
 export interface Service {
@@ -17,4 +17,13 @@ export interface Service {
   bestFor: string;
   icon: React.ElementType;
   isPremium?: boolean;
+}
+
+export interface ScrollingBannerItem {
+  id: string;
+  text: string;
+  direction: 'left' | 'right';
+  speed: number;
+  is_active: boolean;
+  order_index: number;
 }

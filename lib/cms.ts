@@ -61,6 +61,15 @@ export interface TestimonialItem {
   rating: number;
 }
 
+export interface ScrollingBannerItem {
+  id: string;
+  text: string;
+  direction: 'left' | 'right';
+  speed: number;
+  is_active: boolean;
+  order_index: number;
+}
+
 // Helper to map DB result to BlogPost
 const mapPost = (data: any): BlogPost => ({
   id: data.id,
@@ -485,5 +494,58 @@ export const cms = {
 
     const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath);
     return data.publicUrl;
+  },
+
+  // --- Scrolling Banners ---
+  getAllScrollingBanners: async (): Promise<any[]> => {
+    const { data, error } = await supabase
+      .from('scrolling_banners')
+      .select('*')
+      .order('order_index', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching scrolling banners:', error);
+      return [];
+    }
+    return data || [];
+  },
+
+  saveScrollingBanner: async (item: any): Promise<any> => {
+    const { id, ...payload } = item;
+    if (id && id !== 'new') {
+      const { data, error } = await supabase
+        .from('scrolling_banners')
+        .update(payload)
+        .eq('id', id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    } else {
+      const { data, error } = await supabase
+        .from('scrolling_banners')
+        .insert([payload])
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    }
+  },
+
+  deleteScrollingBanner: async (id: string) => {
+    const { error, count } = await supabase
+      .from('scrolling_banners')
+      .delete({ count: 'exact' })
+      .eq('id', id);
+
+    if (error) {
+      console.error("Supabase delete error:", error);
+      throw error;
+    }
+
+    if (count === 0) {
+      console.warn("No rows deleted. Check RLS policies or ID.");
+      throw new Error("Deletion failed. Access denied or item not found.");
+    }
   }
 };
