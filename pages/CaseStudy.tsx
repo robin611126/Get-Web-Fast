@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { cms, ProjectItem } from '../lib/cms';
+import { SEO } from '../lib/seo';
 import { Navbar } from '../components/LandingPage';
 import { ArrowLeft, ExternalLink, Code2, Layers, Cpu, CheckCircle, Calendar, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -34,6 +35,13 @@ const CaseStudy = () => {
     return (
         <div className="min-h-screen bg-[#030014] text-white font-sans selection:bg-blue-500/30 font-['Stack_Sans_Notch']">
             <Navbar />
+
+            {/* SEO */}
+            <SEO
+                title={project.name}
+                description={project.description}
+                image={project.image}
+            />
 
             {/* Hero Section */}
             <div className={`relative min-h-[60vh] flex items-end pt-32 pb-20 px-6 ${project.bg_class || 'bg-[#0A0A12]'}`}>

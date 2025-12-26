@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Navbar } from '../components/LandingPage';
 import { cms, ProjectItem } from '../lib/cms';
+import { SEO } from '../lib/seo';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
 const AllProjects = () => {
@@ -28,6 +29,13 @@ const AllProjects = () => {
     return (
         <div className="min-h-screen bg-[#030014] text-white font-sans selection:bg-blue-500/30 font-['Stack_Sans_Notch']">
             <Navbar />
+
+
+
+            <SEO
+                title="Our Projects"
+                description="Explore our portfolio of custom web applications, SaaS landing pages, and corporate websites built for speed and conversion."
+            />
 
             {/* Header */}
             <div className="pt-32 pb-20 px-6 text-center max-w-7xl mx-auto">
