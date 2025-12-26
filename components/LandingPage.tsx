@@ -171,12 +171,13 @@ export const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section id="home" className="relative md:min-h-screen flex flex-col items-center pt-24 md:pt-32 lg:pt-48 overflow-x-hidden overflow-y-visible pb-12 md:pb-32">
+    <section id="home" className="relative md:min-h-screen flex flex-col items-center pt-32 md:pt-40 lg:pt-44 overflow-x-hidden overflow-y-visible pb-12 md:pb-20">
       {/* --- Cosmic Horizon Background --- */}
-      {/* Top light bloom - Constrained width to prevent horizontal scroll */}
-      <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[140%] md:w-full h-[500px] md:h-[600px] bg-primary/20 blur-[100px] md:blur-[120px] rounded-[100%] pointer-events-none z-0 mix-blend-screen"></div>
-      {/* Secondary glow */}
-      <div className="absolute top-[-5%] left-1/2 -translate-x-1/2 w-[90%] md:w-[80%] h-[300px] md:h-[400px] bg-secondary/10 blur-[80px] md:blur-[100px] rounded-[100%] pointer-events-none z-0"></div>
+      <div className="absolute inset-x-0 top-0 h-[800px] overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-primary/20 blur-[120px] rounded-full opacity-50 mix-blend-screen"></div>
+        <div className="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-secondary/20 blur-[100px] rounded-full opacity-40 mix-blend-screen"></div>
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+      </div>
 
       <div className="max-w-5xl mx-auto px-6 w-full flex flex-col items-center relative z-10 text-center">
 
@@ -208,7 +209,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-9xl font-black tracking-normal text-white mb-8 leading-[1.1] md:leading-[0.9] drop-shadow-2xl"
+          className="text-4xl sm:text-6xl md:text-8xl lg:text-[6.5rem] xl:text-8xl font-black tracking-normal text-white mb-8 leading-[1.1] md:leading-[0.9] drop-shadow-2xl"
         >
           Websites Delivered Fast. <br className="hidden md:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-white to-primary drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
@@ -290,12 +291,12 @@ const ScrollingText = () => {
   if (loading) return null;
 
   return (
-    <div className="w-full bg-black border-y border-white/20 overflow-hidden py-1.5 md:py-6 relative z-20 flex flex-col divide-y divide-white/10">
+    <div className="w-full bg-black border-y border-white/20 overflow-hidden py-1.5 md:py-2 relative z-20 flex flex-col divide-y divide-white/10">
       {/* Background Subtle Grid - Made lighter/smaller */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:14px_24px]"></div>
 
       {banners.map((banner) => (
-        <div key={banner.id} className="relative w-full flex whitespace-nowrap overflow-hidden select-none py-2 md:py-4">
+        <div key={banner.id} className="relative w-full flex whitespace-nowrap overflow-hidden select-none py-2 md:py-2">
           {/* Fade Masks */}
           <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-black to-transparent z-10"></div>
           <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-black to-transparent z-10"></div>
