@@ -171,11 +171,11 @@ export const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section id="home" className="relative md:min-h-screen flex flex-col items-center pt-32 md:pt-40 lg:pt-44 overflow-x-hidden overflow-y-visible pb-12 md:pb-20">
+    <section id="home" className="relative md:min-h-screen flex flex-col items-center pt-24 md:pt-40 lg:pt-44 pb-12 md:pb-20">
       {/* --- Cosmic Horizon Background --- */}
-      <div className="absolute inset-x-0 top-0 h-[800px] overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-primary/20 blur-[120px] rounded-full opacity-50 mix-blend-screen"></div>
-        <div className="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-secondary/20 blur-[100px] rounded-full opacity-40 mix-blend-screen"></div>
+      <div className="absolute inset-x-0 top-0 h-[600px] md:h-[800px] overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-primary/10 blur-[80px] rounded-full opacity-50"></div>
+        <div className="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-secondary/10 blur-[60px] rounded-full opacity-40"></div>
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       </div>
 
@@ -302,7 +302,7 @@ const ScrollingText = () => {
           <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-black to-transparent z-10"></div>
 
           <motion.div
-            className="flex gap-12 md:gap-24 items-center"
+            className="flex gap-12 md:gap-24 items-center will-change-transform"
             initial={{ x: banner.direction === 'left' ? "0%" : "-50%" }}
             animate={{ x: banner.direction === 'left' ? "-50%" : "0%" }}
             transition={{
@@ -315,7 +315,7 @@ const ScrollingText = () => {
               <div key={i} className="flex gap-12 md:gap-24 items-center shrink-0">
                 <span className={`
                     text-3xl md:text-6xl font-black italic tracking-tighter whitespace-pre
-                    ${i % 2 === 0 ? 'text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]' : 'text-transparent bg-clip-text bg-gradient-to-r from-slate-500 to-slate-700'}
+                     ${i % 2 === 0 ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-slate-500 to-slate-700'}
                   `}>
                   {banner.text}
                 </span>
@@ -697,7 +697,7 @@ const Projects = () => {
           <div className="hidden md:block absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#030014] to-transparent z-20 pointer-events-none" />
 
           <motion.div
-            className="flex gap-6 w-max"
+            className="flex gap-6 w-max will-change-transform"
             animate={{ x: "-50%" }}
             transition={{
               ease: "linear",
