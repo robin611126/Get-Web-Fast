@@ -6,7 +6,7 @@ import {
   MessageCircle, Phone, Mail, MapPin,
   Star, Rocket, ArrowUpRight, Crown, Quote,
   Linkedin, Instagram, Facebook, Youtube,
-  Lock, Briefcase, ShoppingBag, Users, Code, Globe, Smartphone
+  Lock, Briefcase, ShoppingBag, Users, Code, Globe, Smartphone, Sparkles
 } from 'lucide-react';
 import { cms, ServiceItem, ProjectItem, TestimonialItem, ScrollingBannerItem } from '../lib/cms';
 import { COMPANY_INFO, FEATURES, SERVICES, PROJECTS, TESTIMONIALS } from '../constants';
@@ -756,8 +756,10 @@ const Projects = () => {
 
 const Testimonials = () => {
   const [items, setItems] = useState<TestimonialItem[]>([]);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -769,26 +771,65 @@ const Testimonials = () => {
   }, []);
 
   useEffect(() => {
-    if (items.length === 0) return;
+    if (items.length === 0 || isPaused) return;
     const interval = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % items.length);
+      handleNext();
     }, 5000);
     return () => clearInterval(interval);
-  }, [items]);
+  }, [items, isPaused, currentIndex]);
+
+  const handleNext = () => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % items.length);
+  };
+
+  const handlePrev = () => {
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+  };
+
+  const handleDotClick = (index: number) => {
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
+  };
+
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+  };
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0,
+      scale: 0.9,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+      scale: 1,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0,
+      scale: 0.9,
+    }),
+  };
 
   if (loading) return null;
-  if (items.length === 0) return null; // Or show a default state
+  if (items.length === 0) return null;
 
   return (
-    <section className="py-32 relative overflow-hidden bg-[#030014]">
-      {/* Background Beams - recreating the vertical lines in reference */}
+    <section className="py-24 md:py-32 relative overflow-hidden bg-[#030014]">
+      {/* Background Beams */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full opacity-30 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/0 via-blue-500/10 to-blue-500/0 transform -skew-x-12 blur-3xl" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <div className="flex flex-col items-center text-center mb-12 md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -796,8 +837,7 @@ const Testimonials = () => {
           >
             Testimonials
           </motion.div>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
             Client Success Stories
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl">
@@ -806,59 +846,106 @@ const Testimonials = () => {
         </div>
 
         {/* Featured Testimonial Card */}
-        <div className="relative max-w-4xl mx-auto">
-          {/* Glow under the card */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
+        <div
+          className="relative max-w-5xl mx-auto min-h-[500px] flex items-center justify-center"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Card Container with Premium Glass Effect */}
+          <div className="relative w-full rounded-[2.5rem] bg-gradient-to-b from-white/[0.08] to-transparent p-[1px] shadow-2xl shadow-blue-900/20 overflow-hidden">
+            {/* Inner background */}
+            <div className="absolute inset-0 bg-[#030014]/80 backdrop-blur-xl rounded-[2.5rem]"></div>
 
-          <div className="relative rounded-3xl bg-[#050510] border border-white/10 p-8 md:p-16 flex flex-col items-center text-center overflow-hidden">
-            {/* Inner glowing mesh */}
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.1),transparent_70%)] pointer-events-none"></div>
+            {/* Decorative Gradients */}
+            <div className="absolute -top-32 -left-32 w-64 h-64 bg-primary/30 blur-[100px] rounded-full pointer-events-none"></div>
+            <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-secondary/30 blur-[100px] rounded-full pointer-events-none"></div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="relative z-10 flex flex-col items-center"
-              >
-                <Quote size={48} className="text-white mb-8 fill-white/20" />
+            <div className="relative rounded-[2.5rem] p-8 md:p-16 flex flex-col items-center text-center h-full min-h-[450px] justify-center overflow-hidden">
 
-                <p className="text-xl md:text-2xl font-medium text-slate-200 mb-8 leading-relaxed max-w-2xl">
-                  "{items[activeIndex].text}"
-                </p>
+              <AnimatePresence initial={false} custom={direction} mode="wait">
+                <motion.div
+                  key={currentIndex}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: "spring", stiffness: 200, damping: 25 },
+                    opacity: { duration: 0.3 },
+                    scale: { duration: 0.3 }
+                  }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={1}
+                  onDragEnd={(e, { offset, velocity }) => {
+                    const swipe = swipePower(offset.x, velocity.x);
+                    if (swipe < -swipeConfidenceThreshold) handleNext();
+                    else if (swipe > swipeConfidenceThreshold) handlePrev();
+                  }}
+                  className="relative z-10 flex flex-col items-center w-full cursor-grab active:cursor-grabbing"
+                >
+                  {/* Watermark Quote */}
+                  <Quote size={120} className="absolute -top-10 -left-4 md:left-10 text-white/[0.03] fill-white/[0.03] pointer-events-none rotate-12 scale-150" />
 
-                <div className="flex gap-1 mb-8">
-                  {[...Array(items[activeIndex].rating || 5)].map((_, i) => (
-                    <Star key={i} size={18} className="text-yellow-400 fill-yellow-400" />
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="p-1 rounded-full border border-white/10 bg-white/5">
-                    <img
-                      src={items[activeIndex].image}
-                      alt={items[activeIndex].name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
+                  {/* Main Quote Icon */}
+                  <div className="mb-8 p-4 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/5 shadow-lg shadow-blue-500/10">
+                    <Quote size={32} className="text-blue-400 fill-blue-400/50" />
                   </div>
-                  <div className="text-left">
-                    <div className="font-bold text-white text-lg">{items[activeIndex].name}</div>
-                    <div className="text-sm text-blue-400 font-medium">{items[activeIndex].role}</div>
+
+                  <p className="text-xl md:text-3xl font-medium text-white mb-10 leading-relaxed max-w-3xl select-none relative z-10 font-[Stack Sans Notch] tracking-tight">
+                    "{items[currentIndex].text}"
+                  </p>
+
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 shadow-xl shadow-blue-500/20">
+                      <div className="p-0.5 rounded-full bg-[#030014]">
+                        <img
+                          src={items[currentIndex].image}
+                          alt={items[currentIndex].name}
+                          className="w-16 h-16 rounded-full object-cover pointer-events-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="text-center">
+                      <div className="font-bold text-white text-xl md:text-2xl mb-1">{items[currentIndex].name}</div>
+                      <div className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 uppercase tracking-widest">{items[currentIndex].role}</div>
+                    </div>
+
+                    <div className="flex gap-1 mt-2">
+                      {[...Array(items[currentIndex].rating || 5)].map((_, i) => (
+                        <Star key={i} size={16} className="text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]" />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
 
+          {/* Navigation Arrows (Desktop) */}
+          <button
+            onClick={handlePrev}
+            className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-12 p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-blue-600 hover:border-transparent transition-all z-20 hidden md:block group backdrop-blur-md"
+          >
+            <ArrowRight size={24} className="rotate-180 group-hover:scale-110 transition-transform" />
+          </button>
+          <button
+            onClick={handleNext}
+            className="absolute top-1/2 -translate-y-1/2 -right-4 md:-right-12 p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-blue-600 hover:border-transparent transition-all z-20 hidden md:block group backdrop-blur-md"
+          >
+            <ArrowRight size={24} className="group-hover:scale-110 transition-transform" />
+          </button>
+
           {/* Navigation Dots */}
-          <div className="flex justify-center gap-3 mt-8">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex justify-center gap-3 z-20">
             {items.map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`h-2 rounded-full transition-all duration-300 ${activeIndex === idx ? 'w-8 bg-blue-500' : 'w-2 bg-slate-700 hover:bg-slate-600'}`}
+                onClick={() => handleDotClick(idx)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-8 bg-blue-500' : 'w-2 bg-slate-700 hover:bg-slate-600'}`}
+                aria-label={`Go to testimonial ${idx + 1}`}
               />
             ))}
           </div>
