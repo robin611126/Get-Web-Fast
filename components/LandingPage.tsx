@@ -800,9 +800,9 @@ const Testimonials = () => {
 
   const variants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
+      x: direction > 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 0.9,
+      scale: 0.95,
     }),
     center: {
       zIndex: 1,
@@ -812,9 +812,9 @@ const Testimonials = () => {
     },
     exit: (direction: number) => ({
       zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+      x: direction < 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 0.9,
+      scale: 0.95,
     }),
   };
 
@@ -847,22 +847,22 @@ const Testimonials = () => {
 
         {/* Featured Testimonial Card */}
         <div
-          className="relative max-w-5xl mx-auto min-h-[500px] flex items-center justify-center"
+          className="relative max-w-5xl mx-auto min-h-[400px] md:min-h-[500px] flex items-center justify-center transition-all"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Card Container with Premium Glass Effect */}
-          <div className="relative w-full rounded-[2.5rem] bg-gradient-to-b from-white/[0.08] to-transparent p-[1px] shadow-2xl shadow-blue-900/20 overflow-hidden">
+          <div className="relative w-full rounded-[2rem] md:rounded-[2.5rem] bg-gradient-to-b from-white/[0.08] to-transparent p-[1px] shadow-2xl shadow-blue-900/20 overflow-hidden">
             {/* Inner background */}
-            <div className="absolute inset-0 bg-[#030014]/80 backdrop-blur-xl rounded-[2.5rem]"></div>
+            <div className="absolute inset-0 bg-[#030014]/80 backdrop-blur-xl rounded-[2rem] md:rounded-[2.5rem]"></div>
 
             {/* Decorative Gradients */}
             <div className="absolute -top-32 -left-32 w-64 h-64 bg-primary/30 blur-[100px] rounded-full pointer-events-none"></div>
             <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-secondary/30 blur-[100px] rounded-full pointer-events-none"></div>
 
-            <div className="relative rounded-[2.5rem] p-8 md:p-16 flex flex-col items-center text-center h-full min-h-[450px] justify-center overflow-hidden">
+            <div className="relative rounded-[2rem] md:rounded-[2.5rem] grid grid-cols-1 place-items-center text-center min-h-[350px] md:min-h-[450px] overflow-hidden">
 
-              <AnimatePresence initial={false} custom={direction} mode="wait">
+              <AnimatePresence initial={false} custom={direction}>
                 <motion.div
                   key={currentIndex}
                   custom={direction}
@@ -871,9 +871,9 @@ const Testimonials = () => {
                   animate="center"
                   exit="exit"
                   transition={{
-                    x: { type: "spring", stiffness: 200, damping: 25 },
-                    opacity: { duration: 0.3 },
-                    scale: { duration: 0.3 }
+                    x: { type: "spring", stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.2 },
+                    scale: { duration: 0.2 }
                   }}
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
@@ -883,39 +883,39 @@ const Testimonials = () => {
                     if (swipe < -swipeConfidenceThreshold) handleNext();
                     else if (swipe > swipeConfidenceThreshold) handlePrev();
                   }}
-                  className="relative z-10 flex flex-col items-center w-full cursor-grab active:cursor-grabbing"
+                  className="col-start-1 row-start-1 z-10 flex flex-col items-center justify-center w-full h-full px-6 py-12 md:px-16 md:py-16 cursor-grab active:cursor-grabbing"
                 >
-                  {/* Watermark Quote */}
-                  <Quote size={120} className="absolute -top-10 -left-4 md:left-10 text-white/[0.03] fill-white/[0.03] pointer-events-none rotate-12 scale-150" />
+                  {/* Watermark Quote (Hidden on mobile to save space) */}
+                  <Quote size={80} className="absolute -top-6 -left-2 md:-top-10 md:left-10 text-white/[0.03] fill-white/[0.03] pointer-events-none rotate-12 scale-150 hidden md:block" />
 
                   {/* Main Quote Icon */}
-                  <div className="mb-8 p-4 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/5 shadow-lg shadow-blue-500/10">
-                    <Quote size={32} className="text-blue-400 fill-blue-400/50" />
+                  <div className="mb-6 md:mb-8 p-3 md:p-4 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/5 shadow-lg shadow-blue-500/10">
+                    <Quote size={24} className="text-blue-400 fill-blue-400/50 md:w-8 md:h-8" />
                   </div>
 
-                  <p className="text-xl md:text-3xl font-medium text-white mb-10 leading-relaxed max-w-3xl select-none relative z-10 font-[Stack Sans Notch] tracking-tight">
+                  <p className="text-lg md:text-3xl font-medium text-white mb-8 md:mb-10 leading-relaxed max-w-3xl select-none relative z-10 font-[Stack Sans Notch] tracking-tight">
                     "{items[currentIndex].text}"
                   </p>
 
-                  <div className="flex flex-col items-center gap-4">
+                  <div className="flex flex-col items-center gap-3 md:gap-4">
                     <div className="p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 shadow-xl shadow-blue-500/20">
                       <div className="p-0.5 rounded-full bg-[#030014]">
                         <img
                           src={items[currentIndex].image}
                           alt={items[currentIndex].name}
-                          className="w-16 h-16 rounded-full object-cover pointer-events-none"
+                          className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover pointer-events-none"
                         />
                       </div>
                     </div>
 
                     <div className="text-center">
-                      <div className="font-bold text-white text-xl md:text-2xl mb-1">{items[currentIndex].name}</div>
-                      <div className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 uppercase tracking-widest">{items[currentIndex].role}</div>
+                      <div className="font-bold text-white text-lg md:text-2xl mb-0.5 md:mb-1">{items[currentIndex].name}</div>
+                      <div className="text-xs md:text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 uppercase tracking-widest">{items[currentIndex].role}</div>
                     </div>
 
-                    <div className="flex gap-1 mt-2">
+                    <div className="flex gap-1 mt-1 md:mt-2">
                       {[...Array(items[currentIndex].rating || 5)].map((_, i) => (
-                        <Star key={i} size={16} className="text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]" />
+                        <Star key={i} size={14} className="text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.5)] md:w-4 md:h-4" />
                       ))}
                     </div>
                   </div>
@@ -927,24 +927,24 @@ const Testimonials = () => {
           {/* Navigation Arrows (Desktop) */}
           <button
             onClick={handlePrev}
-            className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-12 p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-blue-600 hover:border-transparent transition-all z-20 hidden md:block group backdrop-blur-md"
+            className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-12 p-3 md:p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-blue-600 hover:border-transparent transition-all z-20 hidden md:block group backdrop-blur-md"
           >
-            <ArrowRight size={24} className="rotate-180 group-hover:scale-110 transition-transform" />
+            <ArrowRight size={20} className="rotate-180 group-hover:scale-110 transition-transform md:w-6 md:h-6" />
           </button>
           <button
             onClick={handleNext}
-            className="absolute top-1/2 -translate-y-1/2 -right-4 md:-right-12 p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-blue-600 hover:border-transparent transition-all z-20 hidden md:block group backdrop-blur-md"
+            className="absolute top-1/2 -translate-y-1/2 -right-4 md:-right-12 p-3 md:p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-blue-600 hover:border-transparent transition-all z-20 hidden md:block group backdrop-blur-md"
           >
-            <ArrowRight size={24} className="group-hover:scale-110 transition-transform" />
+            <ArrowRight size={20} className="group-hover:scale-110 transition-transform md:w-6 md:h-6" />
           </button>
 
           {/* Navigation Dots */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex justify-center gap-3 z-20">
+          <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex justify-center gap-2 md:gap-3 z-20">
             {items.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => handleDotClick(idx)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-8 bg-blue-500' : 'w-2 bg-slate-700 hover:bg-slate-600'}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-6 md:w-8 bg-blue-500' : 'w-2 bg-slate-700 hover:bg-slate-600'}`}
                 aria-label={`Go to testimonial ${idx + 1}`}
               />
             ))}
