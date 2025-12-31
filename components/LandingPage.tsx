@@ -1313,7 +1313,7 @@ const ContactUs = () => {
   );
 };
 
-const Footer = () => {
+export const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -1479,7 +1479,7 @@ export const LandingPage = () => {
         <ContactUs />
         <ContactForm />
       </main>
-      <Footer />
+
     </>
   );
 };
