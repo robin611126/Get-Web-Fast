@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { Clock, ArrowLeft, Facebook, Twitter, Linkedin } from 'lucide-react';
 
 import { useState, useEffect } from 'react';
+import { SEO } from '../lib/seo';
 
 const SinglePost = () => {
   const { slug } = useParams();
@@ -29,6 +30,7 @@ const SinglePost = () => {
   if (!post) {
     return (
       <div className="min-h-screen bg-[#030014] text-white flex items-center justify-center flex-col">
+        <SEO title="404 - Article Not Found" description="The article you are looking for does not exist." />
         <h1 className="text-4xl font-bold mb-4">404</h1>
         <p className="text-slate-400 mb-8">Article not found.</p>
         <Link to="/blog" className="text-blue-400 hover:underline">Back to Blog</Link>
@@ -40,6 +42,12 @@ const SinglePost = () => {
 
   return (
     <div className="min-h-screen bg-[#030014] text-white">
+      <SEO
+        title={post.title}
+        description={post.excerpt}
+        url={`https://www.getwebfast.online/blog/${slug}`}
+        type="article"
+      />
       <Navbar />
 
       <article className="pt-32 pb-24 px-6 max-w-4xl mx-auto">

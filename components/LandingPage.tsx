@@ -19,6 +19,7 @@ import {
 } from './ui/Icons';
 import { AnimatedGradientText } from "./ui/animated-gradient-text";
 import { cn } from "../lib/utils";
+import { SEO } from "../lib/seo";
 
 // --- Helpers ---
 
@@ -1464,6 +1465,11 @@ export const Footer = () => {
 export const LandingPage = () => {
   return (
     <>
+      <SEO
+        title="High-Performance Websites & SEO"
+        description="We build blazing fast, beautiful websites that rank high on Google. Expert web development and SEO services."
+        url="https://www.getwebfast.online/"
+      />
       <GridBackground />
       <ParticleDrift />
       <Navbar />

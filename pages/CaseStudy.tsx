@@ -26,6 +26,7 @@ const CaseStudy = () => {
 
     if (!project) return (
         <div className="min-h-screen bg-[#030014] text-white flex items-center justify-center flex-col">
+            <SEO title="404 - Case Study Not Found" description="The case study you are looking for does not exist." />
             <h1 className="text-4xl font-bold mb-4 font-['Stack_Sans_Notch']">404</h1>
             <p className="text-slate-400 mb-8">Case study not found.</p>
             <Link to="/" className="text-blue-400 hover:underline">Back to Home</Link>
@@ -41,6 +42,7 @@ const CaseStudy = () => {
                 title={project.name}
                 description={project.description}
                 image={project.image}
+                url={`https://www.getwebfast.online/projects/${slug}`}
             />
 
             {/* Hero Section */}

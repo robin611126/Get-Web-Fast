@@ -5,6 +5,8 @@ import { Search, Clock, ArrowRight } from 'lucide-react';
 import { Navbar } from '../components/LandingPage';
 import { format } from 'date-fns';
 
+import { SEO } from '../lib/seo';
+
 const PublicBlog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -33,6 +35,11 @@ const PublicBlog = () => {
 
   return (
     <div className="min-h-screen bg-[#030014] text-white">
+      <SEO
+        title="Blog - Insights & Resources"
+        description="Read our latest thoughts on web development, design, and business growth."
+        url="https://www.getwebfast.online/blog"
+      />
       <Navbar />
 
       <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto">
