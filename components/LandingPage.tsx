@@ -1467,8 +1467,27 @@ export const LandingPage = () => {
     <>
       <SEO
         title="High-Performance Websites & SEO"
-        description="We build blazing fast, beautiful websites that rank high on Google. Expert web development and SEO services."
+        description="Get custom, high-speed websites built in days. We specialize in React, SEO, and modern design to help your business grow fast."
         url="https://www.getwebfast.online/"
+        schema={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "Get Web Fast",
+          "alternateName": "GetWebFast",
+          "url": "https://www.getwebfast.online",
+          "logo": "https://i.ibb.co/yKx6Mtq/gwf-logo.png",
+          "description": "Modern, high-performance websites delivered in days.",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+919065046908",
+            "contactType": "sales",
+            "areaServed": "IN",
+            "availableLanguage": "en"
+          },
+          "sameAs": [
+            "https://www.getwebfast.online"
+          ]
+        })}
       />
       <GridBackground />
       <ParticleDrift />

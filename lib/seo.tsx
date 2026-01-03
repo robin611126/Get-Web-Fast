@@ -6,6 +6,7 @@ interface SEOProps {
     url?: string;
     image?: string;
     type?: string;
+    schema?: string;
 }
 
 export const SEO = ({
@@ -13,7 +14,8 @@ export const SEO = ({
     description,
     url = window.location.href,
     image = 'https://i.ibb.co/yKx6Mtq/gwf-logo.png', // Default OG Image
-    type = 'website'
+    type = 'website',
+    schema
 }: SEOProps) => {
     const siteName = 'Get Web Fast';
     const fullTitle = `${title} | ${siteName}`;
@@ -42,6 +44,13 @@ export const SEO = ({
 
             {/* Canonical */}
             <link rel="canonical" href={url} />
+
+            {/* Schema.org Structured Data */}
+            {schema && (
+                <script type="application/ld+json">
+                    {schema}
+                </script>
+            )}
         </Helmet>
     );
 };
