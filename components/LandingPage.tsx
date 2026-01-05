@@ -1448,13 +1448,7 @@ export const Footer = () => {
           </div>
           <div className="flex flex-col items-center gap-2">
             <p>&copy; 2025 Get Web Fast. All rights reserved.</p>
-            <a
-              href="/admin"
-              onClick={(e) => handleNavClick(e, '/admin')}
-              className="flex items-center gap-1 opacity-50 hover:opacity-100 transition-opacity mt-2"
-            >
-              <Lock size={10} /> <span>Admin Access</span>
-            </a>
+
           </div>
         </div>
       </div>
