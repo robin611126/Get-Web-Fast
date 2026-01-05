@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { LandingPage, Footer } from './components/LandingPage';
+import ScrollToTop from './components/ScrollToTop';
 import PublicBlog from './pages/PublicBlog';
 import SinglePost from './pages/SinglePost';
 import CaseStudy from './pages/CaseStudy';
@@ -11,13 +11,9 @@ const App = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
 
-  // Scroll to top on route change
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
   return (
     <>
+      <ScrollToTop />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
