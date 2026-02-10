@@ -50,6 +50,7 @@ export interface ProjectItem {
   tech_stack: string[];
   live_url: string;
   gallery_images: string[];
+  timeline: string;
 }
 
 export interface TestimonialItem {

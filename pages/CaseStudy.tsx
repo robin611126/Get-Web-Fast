@@ -117,7 +117,7 @@ const CaseStudy = () => {
                                 <h3 className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                                     <Calendar size={12} /> Timeline
                                 </h3>
-                                <div className="text-sm sm:text-lg text-white">4 Weeks (Est.)</div>
+                                <div className="text-sm sm:text-lg text-white">{project.timeline || '4 Weeks (Est.)'}</div>
                             </div>
 
                             <div>

@@ -43,6 +43,9 @@ begin
   if not exists (select 1 from information_schema.columns where table_name = 'projects' and column_name = 'bg_class') then
     alter table public.projects add column bg_class text;
   end if;
+  if not exists (select 1 from information_schema.columns where table_name = 'projects' and column_name = 'timeline') then
+    alter table public.projects add column timeline text;
+  end if;
 end $$;
 
 -- 3. Enable RLS (Idempotent)

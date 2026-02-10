@@ -1,22 +1,22 @@
-import { 
-  Rocket, 
-  ShoppingBag, 
+import {
+  Rocket,
+  ShoppingBag,
   Briefcase, Code, Users,
 } from 'lucide-react';
-import { 
-  FirstYearIcon, 
-  PremiumQualityIcon, 
-  FastDeliveryIcon, 
-  PixelPerfectIcon, 
-  SeoIcon, 
-  PricingIcon 
+import {
+  FirstYearIcon,
+  PremiumQualityIcon,
+  FastDeliveryIcon,
+  PixelPerfectIcon,
+  SeoIcon,
+  PricingIcon
 } from './components/ui/Icons';
 
 export const COMPANY_INFO = {
   name: "Get Web Fast",
   email: "getwebfast@gmail.com",
   phone: "+91 9065046908",
-  whatsapp: "https://wa.link/1209a1", 
+  whatsapp: "https://wa.link/1209a1",
   location: "Jharkhand, India (Remote)",
 };
 
@@ -151,7 +151,7 @@ export const PROJECTS = [
     name: "Genius — SaaS Landing Page",
     category: "SaaS",
     description: "Genius is a minimal SaaS landing page template, designed to be modern, simple, and easily adaptable to any brand.",
-    image: "https://images.unsplash.com/photo-1481487484168-9b930d9b71e5?q=80&w=2617&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1481487484168-9b930d9b71e5?q=80&w=2617&auto=format&fit=crop",
     bg: "bg-gradient-to-br from-zinc-800 to-zinc-900"
   },
   {
@@ -159,7 +159,7 @@ export const PROJECTS = [
     name: "Sap - SaaS Website Template",
     category: "SaaS",
     description: "SAP is a landing page template designed to showcase SaaS and app information effectively.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop",
     bg: "bg-gradient-to-br from-stone-800 to-stone-900"
   },
   {
@@ -167,17 +167,10 @@ export const PROJECTS = [
     name: "Waitlisty — Waitlist Landing Page",
     category: "Waitlist",
     description: "The ideal template for crafting a sleek and efficient waitlist landing page for your upcoming product.",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2670&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2670&auto=format&fit=crop",
     bg: "bg-gradient-to-br from-indigo-950 to-slate-900"
   },
-  {
-    id: 5,
-    name: "Waitlisty — Waitlist Landing Page",
-    category: "Waitlist",
-    description: "The ideal template for crafting a sleek and efficient waitlist landing page for your upcoming product.",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2670&auto=format&fit=crop", 
-    bg: "bg-gradient-to-br from-indigo-950 to-slate-900"
-  },
+
 ];
 
 export const TESTIMONIALS = [

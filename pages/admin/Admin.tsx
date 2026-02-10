@@ -675,7 +675,7 @@ const ProjectEditor = ({ id }: { id?: string }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [project, setProject] = useState<Partial<ProjectItem>>({
-    name: '', category: '', description: '', image: '', bg_class: 'bg-slate-800'
+    name: '', category: '', description: '', image: '', bg_class: 'bg-slate-800', timeline: ''
   });
 
   useEffect(() => {
@@ -737,6 +737,10 @@ const ProjectEditor = ({ id }: { id?: string }) => {
               <div>
                 <label className="block text-sm text-slate-400 mb-1">Live URL</label>
                 <input type="text" placeholder="https://..." value={project.live_url} onChange={e => setProject({ ...project, live_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white" />
+              </div>
+              <div>
+                <label className="block text-sm text-slate-400 mb-1">Timeline</label>
+                <input type="text" placeholder="e.g. 4 Weeks" value={project.timeline} onChange={e => setProject({ ...project, timeline: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white" />
               </div>
               <div>
                 <ImageUploader
