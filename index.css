@@ -63,3 +63,22 @@ body {
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+/* Performance Fixes for Mobile Render Lagging */
+.glass-card,
+[class*="backdrop-blur"] {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+/* Optimize background meshes and heavy animated containers */
+.will-change-transform,
+[class*="bg-[radial-gradient"],
+img {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+}
