@@ -21,7 +21,7 @@ function SmoothScrolling({ children }: { children: React.ReactNode }) {
       root
       ref={lenisRef}
       autoRaf={false}
-      options={{ lerp: 0.05, wheelMultiplier: 1.2, smoothWheel: true, syncTouch: true, touchMultiplier: 2 }}
+      options={{ lerp: 0.05, wheelMultiplier: 1.2, smoothWheel: true }}
     >
       {children}
     </ReactLenis>
