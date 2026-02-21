@@ -38,7 +38,7 @@ const PublicBlog = () => {
       <SEO
         title="Blog - Insights & Resources"
         description="Read our latest thoughts on web development, design, and business growth."
-        url="https://www.getwebfast.online/blog"
+        url="https://www.getwebfast.in/blog"
       />
       <Navbar />
 

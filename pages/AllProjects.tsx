@@ -55,7 +55,7 @@ const AllProjects = () => {
             <SEO
                 title="Our Projects"
                 description="Explore our portfolio of custom web applications, SaaS landing pages, and corporate websites built for speed and conversion."
-                url="https://www.getwebfast.online/projects"
+                url="https://www.getwebfast.in/projects"
             />
 
             {/* Header */}

@@ -42,7 +42,7 @@ const CaseStudy = () => {
                 title={project.name}
                 description={project.description}
                 image={project.image}
-                url={`https://www.getwebfast.online/projects/${slug}`}
+                url={`https://www.getwebfast.in/projects/${slug}`}
             />
 
             {/* Hero Section */}

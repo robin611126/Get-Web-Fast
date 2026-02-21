@@ -45,7 +45,7 @@ const SinglePost = () => {
       <SEO
         title={post.title}
         description={post.excerpt}
-        url={`https://www.getwebfast.online/blog/${slug}`}
+        url={`https://www.getwebfast.in/blog/${slug}`}
         type="article"
       />
       <Navbar />

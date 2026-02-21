@@ -1462,13 +1462,13 @@ export const LandingPage = () => {
       <SEO
         title="High-Performance Websites & SEO"
         description="Get custom, high-speed websites built in days. We specialize in React, SEO, and modern design to help your business grow fast."
-        url="https://www.getwebfast.online/"
+        url="https://www.getwebfast.in/"
         schema={JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "Get Web Fast",
           "alternateName": "GetWebFast",
-          "url": "https://www.getwebfast.online",
+          "url": "https://www.getwebfast.in",
           "logo": "https://i.ibb.co/yKx6Mtq/gwf-logo.png",
           "description": "Modern, high-performance websites delivered in days.",
           "contactPoint": {
@@ -1479,7 +1479,7 @@ export const LandingPage = () => {
             "availableLanguage": "en"
           },
           "sameAs": [
-            "https://www.getwebfast.online"
+            "https://www.getwebfast.in"
           ]
         })}
       />
