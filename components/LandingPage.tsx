@@ -1447,8 +1447,12 @@ export const Footer = () => {
             <span> from Flaticon</span>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <p>&copy; 2025 Get Web Fast. All rights reserved.</p>
-
+            <p className="text-center">
+              &copy; {new Date().getFullYear()} Get Web Fast. All rights reserved. |{' '}
+              <Link to="/privacy-policy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+            </p>
           </div>
         </div>
       </div>

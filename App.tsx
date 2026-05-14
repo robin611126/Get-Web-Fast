@@ -6,6 +6,7 @@ import SinglePost from './pages/SinglePost';
 import CaseStudy from './pages/CaseStudy';
 import AllProjects from './pages/AllProjects';
 import Admin from './pages/admin/Admin';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 const App = () => {
   const location = useLocation();
@@ -21,7 +22,7 @@ const App = () => {
         <Route path="/blog/:slug" element={<SinglePost />} />
         <Route path="/projects/:slug" element={<CaseStudy />} />
         <Route path="/projects" element={<AllProjects />} />
-
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
         {/* Private Admin Route */}
         <Route path="/admin/*" element={<Admin />} />
